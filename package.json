@@ -4,12 +4,20 @@
   "description": "Parses emoji-test.txt from Unicode.org into JSON",
   "main": "parse.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha parse.spec.js"
+    "test": "./node_modules/.bin/mocha test",
+    "lint": "eslint **\\*.js --ignore-pattern node_modules"
   },
   "author": "Brandon Au",
   "license": "GPL-3.0-or-later",
   "devDependencies": {
     "chai": "^4.2.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
     "mocha": "^7.1.1",
     "sinon": "^9.0.2"
   },
@@ -20,5 +28,6 @@
   "bugs": {
     "url": "https://github.com/brandonau24/emoji-data-file-parser/issues"
   },
-  "homepage": "https://github.com/brandonau24/emoji-data-file-parser#readme"
+  "homepage": "https://github.com/brandonau24/emoji-data-file-parser#readme",
+  "type": "module"
 }
