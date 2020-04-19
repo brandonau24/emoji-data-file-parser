@@ -11,5 +11,13 @@
   "type": "module",
   "devDependencies": {
     "mocha": "^7.1.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brandonau24/emoji-data-file-parser.git"
+  },
+  "bugs": {
+    "url": "https://github.com/brandonau24/emoji-data-file-parser/issues"
+  },
+  "homepage": "https://github.com/brandonau24/emoji-data-file-parser#readme"
 }
