@@ -1,0 +1,15 @@
+{
+  "name": "emoji-data-file-parser",
+  "version": "1.0.0",
+  "description": "Parses emoji-test.txt from Unicode.org into JSON",
+  "main": "parse.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Brandon Au",
+  "license": "GPL-3.0-or-later",
+  "type": "module",
+  "devDependencies": {
+    "mocha": "^7.1.1"
+  }
+}
