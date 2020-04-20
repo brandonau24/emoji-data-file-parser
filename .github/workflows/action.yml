@@ -9,10 +9,11 @@ on:
 
 jobs:
   lint:
-    runs-on: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ maxtrix. os }}
 
     strategy:
       matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
         node-version: [13.x]
 
     steps:
@@ -27,10 +28,11 @@ jobs:
         CI: true
 
   test:
-    runs-on: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
         node-version: [13.x]
 
     steps:
