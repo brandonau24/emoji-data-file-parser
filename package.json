@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha test --color --full-trace",
-    "lint": "eslint **\\*.js --ignore-pattern node_modules"
+    "lint": "eslint **/*.js --ignore-pattern node_modules"
   },
   "author": "Brandon Au",
   "license": "GPL-3.0-or-later",
