@@ -1,9 +1,11 @@
 import chai from 'chai';
 import sinon from 'sinon';
+import sinonChai from 'sinon-chai';
 import fs from 'fs';
 import EmojiDataParser from '../src/EmojiDataParser.js';
 
-const expect = chai.expect;
+chai.should();
+chai.use(sinonChai)
 
 describe('parser', () => {
 	let parser;
@@ -22,7 +24,7 @@ describe('parser', () => {
 
 			parser.createFile();
 
-			expect(writeFileSpy.calledOnceWith('emoji-data.json')).to.be.true;
+			writeFileSpy.should.have.been.calledOnceWith('emoji-data.json');
 		});
 
 		it('checks permission to be able to create file in working directory', () => {
@@ -30,8 +32,17 @@ describe('parser', () => {
 
 			parser.createFile();
 
-			expect(accessSpy.calledOnceWith(process.cwd(), fs.constants.F_OK | fs.constants.W_OK)).to.be.true;
-			expect(accessSpy.returnValues[0]).to.be.undefined;
+			accessSpy.should.have.been.calledOnceWith(process.cwd(), fs.constants.F_OK | fs.constants.W_OK);
+			accessSpy.should.have.returned(undefined);
+		});
+
+		it('ends script when an error occurs checking permission', () => {
+			sinon.stub(fs, 'accessSync').throws();
+			const exitStub = sinon.stub(process, 'exit');
+
+			parser.createFile();
+
+			exitStub.should.have.been.calledOnceWith(1);
 		});
 	});
 });
