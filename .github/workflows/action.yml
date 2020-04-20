@@ -1,0 +1,46 @@
+name: emoji-data-file-parser CI
+
+on:
+  push:
+  	paths: ['src/*', 'test/*', 'index.js']
+    branches:
+    - master
+  schedule:
+  	- cron: "0 12 * * *"
+
+jobs:
+  lint:
+    runs-on: [ubuntu-latest, windows-latest, macos-latest]
+
+    strategy:
+      matrix:
+        node-version: [13.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run ESLint on Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm install
+    - run: npm run lint
+      env:
+        CI: true
+
+  test:
+    runs-on: [ubuntu-latest, windows-latest, macos-latest]
+
+    strategy:
+      matrix:
+        node-version: [13.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run JavaScript Unit Tests on Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm install
+    - run: npm run test
+      env:
+        CI: true
