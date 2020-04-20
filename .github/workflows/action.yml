@@ -2,14 +2,14 @@ name: emoji-data-file-parser CI
 
 on:
   push:
-  	paths: 
+    paths: 
     - 'src/*'
     - 'test/*'
     - 'index.js'
     branches:
     - master
   schedule:
-  	- cron: "0 12 * * *"
+    - cron: "0 12 * * *"
 
 jobs:
   lint:
