@@ -12,6 +12,7 @@ describe('parser', () => {
 
 	beforeEach(() => {
 		parser = new EmojiDataParser();
+		sinon.stub(console, 'log');
 	});
 
 	afterEach(() => {
@@ -20,11 +21,12 @@ describe('parser', () => {
 
 	describe('#creates', () => {
 		it('emoji-data.json file', () => {
-			const writeFileSpy = sinon.spy(fs, 'writeFile');
+			const writeFileSpy = sinon.spy(fs, 'writeFileSync');
 
 			parser.createFile();
 
 			writeFileSpy.should.have.been.calledOnceWith('emoji-data.json');
+			writeFileSpy.should.have.returned(undefined);
 		});
 
 		it('checks permission to be able to create file in working directory', () => {

@@ -4,9 +4,7 @@ export default class EmojiDataParser {
 	createFile() {
 		try {
 			fs.accessSync(process.cwd(), fs.constants.F_OK | fs.constants.W_OK);
-			fs.writeFile('emoji-data.json', '', () => {
-
-			});
+			fs.writeFileSync('emoji-data.json', '');
 		}
 		catch (error) {
 			console.log(error);
