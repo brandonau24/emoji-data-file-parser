@@ -1,17 +1,37 @@
 {
-    "env": {
-        "es6": true,
-        "node": true,
-        "mocha": true
-    },
-    "extends": "eslint:recommended",
-    "globals": {
-        "Atomics": "readonly",
-        "SharedArrayBuffer": "readonly"
-    },
-    "parserOptions": {
-        "ecmaVersion": 2018,
-        "sourceType": "module"
-    },
-    "rules": {}
+	"env": {
+		"es6": true,
+		"node": true,
+		"mocha": true
+	},
+	"extends": "eslint:recommended",
+	"globals": {
+		"Atomics": "readonly",
+		"SharedArrayBuffer": "readonly"
+	},
+	"parserOptions": {
+		"ecmaVersion": 2018,
+		"sourceType": "module"
+	},
+	"rules": {
+		"block-scoped-var": "error", 
+		"brace-style": ["error", "stroustrup"],
+		"curly": ["error", "all"],
+		"eol-last": ["warn", "always"],
+		"eqeqeq": "error",
+		"indent": ["error", "tab"],
+		"no-constructor-return": "error",
+		"no-else-return": "error",
+		"no-empty-function": "error",
+		"no-extra-parens": "warn",
+		"no-multi-spaces": "warn",
+		"no-unused-expressions": "error",
+		"no-use-before-define": ["error", {
+			"functions": true,
+			"classes": true,
+			"variables": true
+		}],
+		"quotes": ["error", "single"],
+		"semi": "error"
+	}
 }
