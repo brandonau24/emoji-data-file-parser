@@ -5,7 +5,7 @@ import fs from 'fs';
 import EmojiDataParser from '../src/EmojiDataParser.js';
 
 chai.should();
-chai.use(sinonChai)
+chai.use(sinonChai);
 
 describe('parser', () => {
 	let parser;
