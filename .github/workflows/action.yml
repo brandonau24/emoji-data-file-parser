@@ -2,7 +2,10 @@ name: emoji-data-file-parser CI
 
 on:
   push:
-  	paths: ['src/*', 'test/*', 'index.js']
+  	paths: 
+    - 'src/*'
+    - 'test/*'
+    - 'index.js'
     branches:
     - master
   schedule:
