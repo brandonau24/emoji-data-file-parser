@@ -19,8 +19,8 @@ describe('parser', () => {
 		sinon.restore();
 	});
 
-	describe('#creates', () => {
-		it('file with user provided name', () => {
+	describe('#createFile', () => {
+		it('with user provided name', () => {
 			const writeFileSpy = sinon.spy(fs, 'writeFileSync');
 			const fileName = 'custom-file.txt';
 			
@@ -28,6 +28,16 @@ describe('parser', () => {
 			parser.createFile();
 
 			writeFileSpy.should.have.been.calledOnceWith(fileName);
+			writeFileSpy.should.have.returned(undefined);
+		});
+		
+		it('with default name', () => {
+			const writeFileSpy = sinon.spy(fs, 'writeFileSync');
+
+			parser = new EmojiDataParser();
+			parser.createFile();
+
+			writeFileSpy.should.have.been.calledOnceWith('emoji-data.json');
 			writeFileSpy.should.have.returned(undefined);
 		});
 
