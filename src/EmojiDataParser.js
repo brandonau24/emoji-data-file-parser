@@ -1,4 +1,5 @@
 import fs from 'fs';
+import path from 'path';
 
 export default class EmojiDataParser {
 	constructor(fileName) {
@@ -7,8 +8,9 @@ export default class EmojiDataParser {
 
 	createFile() {
 		try {
-			fs.accessSync(process.cwd(), fs.constants.F_OK | fs.constants.W_OK);
-			fs.writeFileSync(this.fileName, '');
+			const cwd = process.cwd();
+			fs.accessSync(cwd, fs.constants.F_OK | fs.constants.W_OK);
+			fs.writeFileSync(path.join(cwd, this.fileName), '');
 		}
 		catch (error) {
 			console.log(error);

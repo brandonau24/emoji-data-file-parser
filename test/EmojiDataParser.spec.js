@@ -2,6 +2,7 @@ import chai from 'chai';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import fs from 'fs';
+import path from 'path';
 import EmojiDataParser from '../src/EmojiDataParser.js';
 
 chai.should();
@@ -20,25 +21,38 @@ describe('parser', () => {
 	});
 
 	describe('#createFile', () => {
-		it('with user provided name', () => {
-			const writeFileSpy = sinon.spy(fs, 'writeFileSync');
+		it('with user provided name in cwd', () => {
+			const writeFileStub = sinon.stub(fs, 'writeFileSync');
+			const joinSpy = sinon.spy(path, 'join');
+
+			sinon.stub(fs, 'accessSync');
+			const cwdProcessStub = sinon.stub(process, 'cwd').returns('cwd');
+
 			const fileName = 'custom-file.txt';
 			
 			parser = new EmojiDataParser(fileName);
 			parser.createFile();
 
-			writeFileSpy.should.have.been.calledOnceWith(fileName);
-			writeFileSpy.should.have.returned(undefined);
+			joinSpy.should.have.been.calledOnceWith(cwdProcessStub(), fileName);
+			joinSpy.should.have.returned(`${cwdProcessStub()}${path.sep}${fileName}`);
+			writeFileStub.should.have.been.calledOnceWith(joinSpy.returnValues[0]);
+			writeFileStub.should.have.returned(undefined);
 		});
 		
-		it('with default name', () => {
-			const writeFileSpy = sinon.spy(fs, 'writeFileSync');
+		it('with default name in cwd', () => {
+			const writeFileStub = sinon.stub(fs, 'writeFileSync');
+			const joinSpy = sinon.spy(path, 'join');
+
+			sinon.stub(fs, 'accessSync');
+			const cwdProcessStub = sinon.stub(process, 'cwd').returns('cwd');
 
 			parser = new EmojiDataParser();
 			parser.createFile();
 
-			writeFileSpy.should.have.been.calledOnceWith('emoji-data.json');
-			writeFileSpy.should.have.returned(undefined);
+			joinSpy.should.have.been.calledOnceWith(cwdProcessStub(), 'emoji-data.json');
+			joinSpy.should.have.returned(`${cwdProcessStub()}${path.sep}emoji-data.json`);
+			writeFileStub.should.have.been.calledOnceWith(joinSpy.returnValues[0]);
+			writeFileStub.should.have.returned(undefined);
 		});
 
 		it('checks permission to be able to create file in working directory', () => {
