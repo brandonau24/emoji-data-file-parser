@@ -59,6 +59,22 @@ describe('parser', () => {
 			writeFileStub.should.have.returned(undefined);
 		});
 
+		it('ends script when file name given is not a file name', () => {
+			sinon.stub(path, 'parse').returns({
+				root: '/',
+				dir: 'dir',
+				base: 'data.json',
+				ext: '.json',
+				name: 'data'
+			});
+
+			const exitStub = sinon.stub(process, 'exit');
+
+			parser.createFile();
+
+			exitStub.should.have.been.calledOnceWith(1);
+		});
+
 		it('checks permission to be able to create file in working directory', () => {
 			const accessSpy = sinon.spy(fs, 'accessSync');
 
