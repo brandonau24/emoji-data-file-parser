@@ -20,12 +20,14 @@ describe('parser', () => {
 	});
 
 	describe('#creates', () => {
-		it('emoji-data.json file', () => {
+		it('file with user provided name', () => {
 			const writeFileSpy = sinon.spy(fs, 'writeFileSync');
-
+			const fileName = 'custom-file.txt';
+			
+			parser = new EmojiDataParser(fileName);
 			parser.createFile();
 
-			writeFileSpy.should.have.been.calledOnceWith('emoji-data.json');
+			writeFileSpy.should.have.been.calledOnceWith(fileName);
 			writeFileSpy.should.have.returned(undefined);
 		});
 
