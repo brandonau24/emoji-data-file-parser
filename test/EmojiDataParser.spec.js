@@ -22,15 +22,16 @@ describe('parser', () => {
 
 	describe('#createFile', () => {
 		let writeFileStub;
+		let accessStub;
 
 		beforeEach(() => {
 			writeFileStub = sinon.stub(fs, 'writeFileSync');
+			accessStub = sinon.stub(fs, 'accessSync');
 		});
 
 		it('with user provided name in cwd', () => {
 			const joinSpy = sinon.spy(path, 'join');
 
-			sinon.stub(fs, 'accessSync');
 			const cwdProcessStub = sinon.stub(process, 'cwd').returns('cwd');
 
 			const fileName = 'custom-file.txt';
@@ -47,7 +48,6 @@ describe('parser', () => {
 		it('with default name in cwd', () => {
 			const joinSpy = sinon.spy(path, 'join');
 
-			sinon.stub(fs, 'accessSync');
 			const cwdProcessStub = sinon.stub(process, 'cwd').returns('cwd');
 
 			parser = new EmojiDataParser();
@@ -76,15 +76,15 @@ describe('parser', () => {
 		});
 
 		it('checks permission to be able to create file in working directory', () => {
-			const accessSpy = sinon.spy(fs, 'accessSync');
-
 			parser.createFile();
 
-			accessSpy.should.have.been.calledOnceWith(process.cwd(), fs.constants.F_OK | fs.constants.W_OK);
-			accessSpy.should.have.returned(undefined);
+			accessStub.should.have.been.calledOnceWith(process.cwd(), fs.constants.F_OK | fs.constants.W_OK);
+			accessStub.should.have.returned(undefined);
 		});
 
 		it('ends script when an error occurs checking permission', () => {
+			accessStub.restore(); 
+
 			sinon.stub(fs, 'accessSync').throws();
 			const exitStub = sinon.stub(process, 'exit');
 
