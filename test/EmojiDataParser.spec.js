@@ -21,8 +21,13 @@ describe('parser', () => {
 	});
 
 	describe('#createFile', () => {
+		let writeFileStub;
+
+		beforeEach(() => {
+			writeFileStub = sinon.stub(fs, 'writeFileSync');
+		});
+
 		it('with user provided name in cwd', () => {
-			const writeFileStub = sinon.stub(fs, 'writeFileSync');
 			const joinSpy = sinon.spy(path, 'join');
 
 			sinon.stub(fs, 'accessSync');
@@ -40,7 +45,6 @@ describe('parser', () => {
 		});
 		
 		it('with default name in cwd', () => {
-			const writeFileStub = sinon.stub(fs, 'writeFileSync');
 			const joinSpy = sinon.spy(path, 'join');
 
 			sinon.stub(fs, 'accessSync');
