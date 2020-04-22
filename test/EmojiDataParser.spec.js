@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import fs from 'fs';
 import path from 'path';
-import EmojiDataParserAsync from '../src/EmojiDataParserAsync.js';
+import EmojiDataParser from '../src/EmojiDataParser.js';
 
 chai.should();
 chai.use(sinonChai);
@@ -12,7 +12,7 @@ describe('EmojiDataParserAsync', () => {
 	let parser;
 
 	beforeEach(() => {
-		parser = new EmojiDataParserAsync();
+		parser = new EmojiDataParser();
 		sinon.stub(console, 'log');
 	});
 

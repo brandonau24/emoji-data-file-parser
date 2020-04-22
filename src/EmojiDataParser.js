@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-export default class EmojiDataParserAsync {
+export default class EmojiDataParser {
 	createFile(fileName = 'emoji-data.json') {
 		const parsedFileName = path.parse(fileName);
 
