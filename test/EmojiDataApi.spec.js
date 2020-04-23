@@ -8,13 +8,29 @@ chai.should();
 chai.use(sinonChai);
 
 describe('EmojiDataApi', () => {
-	it('makes a request to get emoji data file', () => {
-		const getStub = sinon.stub(https, 'get');
-		const emojiDataApi = new EmojiDataApi();
+	let getStub;
+	let emojiDataApi;
+	
+	beforeEach(() => {
+		getStub = sinon.stub(https, 'get');
+		emojiDataApi = new EmojiDataApi();
+	});
 
-		emojiDataApi.getData();
+	afterEach(() => {
+		sinon.restore();
+	});
+
+	it('makes a request to get emoji data file', () => {
+		emojiDataApi.getData('12.0');
 		
 		const expectedRequestUrl = 'https://www.unicode.org/Public/emoji/12.0/emoji-test.txt';
+		getStub.should.have.been.calledOnceWith(expectedRequestUrl);
+	});
+
+	it('makes a request to get emoji data file with specific version', () => {
+		emojiDataApi.getData('13.0');
+
+		const expectedRequestUrl = 'https://www.unicode.org/Public/emoji/13.0/emoji-test.txt';
 		getStub.should.have.been.calledOnceWith(expectedRequestUrl);
 	});
 });
