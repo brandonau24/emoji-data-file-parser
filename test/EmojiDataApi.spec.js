@@ -20,9 +20,9 @@ describe('EmojiDataApi', () => {
 		sinon.restore();
 	});
 
-	it('makes a request to get emoji data file', () => {
-		emojiDataApi.getData('12.0');
-		
+	it('makes a request to get emoji data file with default version', () => {
+		emojiDataApi.getData();
+
 		const expectedRequestUrl = 'https://www.unicode.org/Public/emoji/12.0/emoji-test.txt';
 		getStub.should.have.been.calledOnceWith(expectedRequestUrl);
 	});
