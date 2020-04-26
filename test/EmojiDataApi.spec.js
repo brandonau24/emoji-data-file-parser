@@ -94,4 +94,21 @@ describe('EmojiDataApi', () => {
 		});
 
 		return emojiDataApi.getData().should.eventually.be.null;
+	});
+
+	it('returns emoji data text file when request is successful', () => {
+		const data = `
+				# group: Smileys & Emotion
+
+				# subgroup: face-smiling
+				1F600                                      ; fully-qualified     # 😀 grinning face
+				1F603                                      ; fully-qualified     # 😃 grinning face with big eyes
+		`;
+
+		getStub.resolves({
+			data
+		});
+
+		return emojiDataApi.getData().should.eventually.equal(data);
+	});
 });

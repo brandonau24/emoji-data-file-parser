@@ -16,6 +16,9 @@ export default class EmojiDataApi {
 		};
 
 		return axios.get(`https://www.unicode.org/Public/emoji/${version}/emoji-test.txt`, options)
+			.then(response => {
+				return response.data;
+			})
 			.catch(error => {
 				const { response, request, message } = error;
 
