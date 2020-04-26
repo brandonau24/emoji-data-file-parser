@@ -25,7 +25,7 @@
 		"no-empty-function": "error",
 		"no-extra-parens": "warn",
 		"no-multi-spaces": "warn",
-		"no-unused-expressions": "error",
+		"chai-friendly/no-unused-expressions": "error",
 		"no-use-before-define": ["error", {
 			"functions": true,
 			"classes": true,
@@ -33,5 +33,6 @@
 		}],
 		"quotes": ["error", "single"],
 		"semi": "error"
-	}
+	},
+	"plugins": ["chai-friendly"]
 }
