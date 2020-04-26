@@ -16,6 +16,8 @@ describe('EmojiDataApi', () => {
 	
 	beforeEach(() => {
 		getStub = sinon.stub(axios, 'get').resolves();
+		sinon.stub(console, 'log');
+
 		emojiDataApi = new EmojiDataApi();
 	});
 
@@ -64,10 +66,23 @@ describe('EmojiDataApi', () => {
 		expect(actual).to.be.null;
 	});
 
-	it('returns no data when axios returns error', () => {
+	it('returns no data when response returns with an error', () => {
 		getStub.rejects({
-			status: 400,
-			statusText: 'Bad request'
+			response: {
+				status: 400,
+				statusText: 'Bad request'
+			}
+		});
+
+		return emojiDataApi.getData().should.eventually.be.null;
+	});
+	
+	it('returns no data when there is no response', () => {
+		getStub.rejects({
+			request: {
+				status: 400,
+				statusText: 'Bad request'
+			}
 		});
 
 		return emojiDataApi.getData().should.eventually.be.null;
