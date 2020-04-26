@@ -1,4 +1,4 @@
-import https from 'https';
+import axios from 'axios';
 
 export default class EmojiDataApi {
 	getData(version = '12.0') {
@@ -10,9 +10,11 @@ export default class EmojiDataApi {
 			headers: {
 				Accept: 'text/plain',
 				'Accept-Charset': 'utf-8'
-			}
+			},
+			responseType: 'text',
+			responseEncoding: 'utf8'
 		};
 
-		https.get(`https://www.unicode.org/Public/emoji/${version}/emoji-test.txt`, options);
+		axios.get(`https://www.unicode.org/Public/emoji/${version}/emoji-test.txt`, options);
 	}
 }

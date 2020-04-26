@@ -31,5 +31,8 @@
     "url": "https://github.com/brandonau24/emoji-data-file-parser/issues"
   },
   "homepage": "https://github.com/brandonau24/emoji-data-file-parser#readme",
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "axios": "^0.19.2"
+  }
 }

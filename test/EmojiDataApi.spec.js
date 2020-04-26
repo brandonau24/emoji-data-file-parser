@@ -1,7 +1,7 @@
 import chai from 'chai';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
-import https from 'https';
+import axios from 'axios';
 import EmojiDataApi from '../src/EmojiDataApi.js';
 
 const expect = chai.expect;
@@ -13,7 +13,7 @@ describe('EmojiDataApi', () => {
 	let emojiDataApi;
 	
 	beforeEach(() => {
-		getStub = sinon.stub(https, 'get');
+		getStub = sinon.stub(axios, 'get');
 		emojiDataApi = new EmojiDataApi();
 	});
 
@@ -43,9 +43,12 @@ describe('EmojiDataApi', () => {
 			headers: {
 				Accept: 'text/plain',
 				'Accept-Charset': 'utf-8'
-			}
+			},
+			responseType: 'text',
+			responseEncoding: 'utf8'
 		};
-		getStub.should.have.been.calledOnceWith(expectedRequestUrl, expectedOptions);
+
+		getStub.should.have.been.calledOnceWithExactly(expectedRequestUrl, expectedOptions);
 	});
 
 	it('returns no data when version is not a number', () => {
