@@ -37,8 +37,7 @@ describe('EmojiDataParserAsync', () => {
 		});
 
 		it('ends script when error occurs while writing file', () => {
-			writeFileStub.restore();
-			sinon.stub(fs, 'writeFile').yields(new Error());
+			writeFileStub.yields(new Error());
 
 			const exitStub = sinon.stub(process, 'exit');
 
