@@ -35,6 +35,19 @@ describe('EmojiDataApi', () => {
 		getStub.should.have.been.calledOnceWith(expectedRequestUrl);
 	});
 
+	it('makes a request with proper http headers', () => {
+		emojiDataApi.getData();
+
+		const expectedRequestUrl = 'https://www.unicode.org/Public/emoji/12.0/emoji-test.txt';
+		const expectedOptions = {
+			headers: {
+				Accept: 'text/plain',
+				'Accept-Charset': 'utf-8'
+			}
+		};
+		getStub.should.have.been.calledOnceWith(expectedRequestUrl, expectedOptions);
+	});
+
 	it('returns no data when version is not a number', () => {
 		const isNanSpy = sinon.spy(Number, 'isNaN');
 		const parseFloatSpy = sinon.spy(parseFloat);

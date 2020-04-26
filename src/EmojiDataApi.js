@@ -6,6 +6,13 @@ export default class EmojiDataApi {
 			return null;
 		}
 
-		https.get(`https://www.unicode.org/Public/emoji/${version}/emoji-test.txt`);
+		const options = {
+			headers: {
+				Accept: 'text/plain',
+				'Accept-Charset': 'utf-8'
+			}
+		};
+
+		https.get(`https://www.unicode.org/Public/emoji/${version}/emoji-test.txt`, options);
 	}
 }
