@@ -1,19 +1,21 @@
 import chai from 'chai';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
+import chaiAsPromised from 'chai-as-promised';
 import axios from 'axios';
 import EmojiDataApi from '../src/EmojiDataApi.js';
 
 const expect = chai.expect;
 chai.should();
 chai.use(sinonChai);
+chai.use(chaiAsPromised);
 
 describe('EmojiDataApi', () => {
 	let getStub;
 	let emojiDataApi;
 	
 	beforeEach(() => {
-		getStub = sinon.stub(axios, 'get');
+		getStub = sinon.stub(axios, 'get').resolves();
 		emojiDataApi = new EmojiDataApi();
 	});
 
@@ -60,5 +62,14 @@ describe('EmojiDataApi', () => {
 		isNanSpy.should.have.returned(true);
 		isNaN(parseFloatSpy.returnValues[0]).should.be.true;
 		expect(actual).to.be.null;
+	});
+
+	it('returns no data when axios returns error', () => {
+		getStub.rejects({
+			status: 400,
+			statusText: 'Bad request'
+		});
+
+		return emojiDataApi.getData().should.eventually.be.null;
 	});
 });

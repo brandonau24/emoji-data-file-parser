@@ -15,6 +15,9 @@ export default class EmojiDataApi {
 			responseEncoding: 'utf8'
 		};
 
-		axios.get(`https://www.unicode.org/Public/emoji/${version}/emoji-test.txt`, options);
+		return axios.get(`https://www.unicode.org/Public/emoji/${version}/emoji-test.txt`, options)
+			.catch(() => {
+				return null;
+			});
 	}
 }
