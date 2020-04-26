@@ -17,13 +17,16 @@ export default class EmojiDataApi {
 
 		return axios.get(`https://www.unicode.org/Public/emoji/${version}/emoji-test.txt`, options)
 			.catch(error => {
-				const { response, request } = error;
+				const { response, request, message } = error;
 
 				if (response) {
 					console.log(`Received response ${response.status}: ${response.statusText}`);
 				}
 				else if (request) {
 					console.log(request);
+				}
+				else {
+					console.log(message);
 				}
 
 				return null;

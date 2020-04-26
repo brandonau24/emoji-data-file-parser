@@ -87,4 +87,11 @@ describe('EmojiDataApi', () => {
 
 		return emojiDataApi.getData().should.eventually.be.null;
 	});
+
+	it('returns no data when there is a problem with axios setup', () => {
+		getStub.rejects({
+			message: 'Some Axios Error'
+		});
+
+		return emojiDataApi.getData().should.eventually.be.null;
 });
