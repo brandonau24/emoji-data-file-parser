@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import EmojiDataApi from './EmojiDataApi.js';
 
 export default class EmojiDataParser {
 	createFile(fileName = 'emoji-data.json') {
@@ -16,6 +17,14 @@ export default class EmojiDataParser {
 			if (error) {
 				this._exitLog(1, `Cannot create/write ${filePath}...`, error);
 			}
+		});
+	}
+
+	getFilteredData() {
+		const emojiDataApi = new EmojiDataApi();
+		
+		return emojiDataApi.getData().then(data => {
+			return {};
 		});
 	}
 

@@ -1,12 +1,15 @@
 import chai from 'chai';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
+import chaiAsPromised from 'chai-as-promised';
 import fs from 'fs';
 import path from 'path';
 import EmojiDataParser from '../src/EmojiDataParser.js';
+import EmojiDataApi from '../src/EmojiDataApi.js';
 
 chai.should();
 chai.use(sinonChai);
+chai.use(chaiAsPromised);
 
 describe('EmojiDataParserAsync', () => {
 	let parser;
@@ -72,6 +75,23 @@ describe('EmojiDataParserAsync', () => {
 			});
 
 			exitStub.should.have.been.calledOnceWithExactly(1);
+		});
+	});
+
+	describe('#filterData', () => {
+		it('ignores comments', () => {
+			const data = 
+			`
+				# This is a comment
+				# group: Group-1
+				# subgroup: subgroup-1
+				1F600                                      ; fully-qualified     # 😀 grinning face
+				263A                                       ; unqualified         # ☺ smiling face
+			`;
+
+			sinon.stub(EmojiDataApi.prototype, 'getData').resolves(data);
+
+			return parser.getFilteredData().should.eventually.deep.equal({});
 		});
 	});
 });
