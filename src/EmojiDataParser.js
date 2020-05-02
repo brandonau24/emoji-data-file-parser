@@ -23,7 +23,7 @@ export default class EmojiDataParser {
 	getFilteredData() {
 		const emojiDataApi = new EmojiDataApi();
 		
-		return emojiDataApi.getData().then(data => {
+		return emojiDataApi.getData().then(() => {
 			return {};
 		});
 	}

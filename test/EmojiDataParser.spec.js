@@ -11,7 +11,7 @@ chai.should();
 chai.use(sinonChai);
 chai.use(chaiAsPromised);
 
-describe('EmojiDataParserAsync', () => {
+describe('EmojiDataParser', () => {
 	let parser;
 
 	beforeEach(() => {
