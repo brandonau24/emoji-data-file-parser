@@ -23,18 +23,38 @@ describe('EmojiDataParser', () => {
 
 	describe('#filterData', () => {
 		it('ignores comments', () => {
-			const data = 
+			const data =
+			`
+				# This is a comment
+				# group: Group-1
+				# subgroup: subgroup-1
+			`;
+
+			sinon.stub(EmojiDataApi.prototype, 'getData').resolves(data);
+
+			return parser.getFilteredData().should.eventually.deep.equal({});
+		});
+
+		it('picks only fully-qualified emoji codepoints', () => {
+			const data =
 			`
 				# This is a comment
 				# group: Group-1
 				# subgroup: subgroup-1
 				1F600                                      ; fully-qualified     # 😀 grinning face
 				263A                                       ; unqualified         # ☺ smiling face
+				1F44B                                      ; fully-qualified     # 👋 waving hand
+				1F44B 1F3FB                                ; fully-qualified     # 👋🏻 waving hand: light skin tone
+				1F471 200D 2642                            ; minimally-qualified # 👱‍♂ man: blond hair
 			`;
 
 			sinon.stub(EmojiDataApi.prototype, 'getData').resolves(data);
 
-			return parser.getFilteredData().should.eventually.deep.equal({});
+			return parser.getFilteredData().should.eventually.deep.equal({
+				'1F600': {},
+				'1F44B': {},
+				'1F44B 1F3FB': {}
+			});
 		});
 	});
 });
