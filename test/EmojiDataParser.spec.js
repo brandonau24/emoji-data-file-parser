@@ -51,9 +51,38 @@ describe('EmojiDataParser', () => {
 			sinon.stub(EmojiDataApi.prototype, 'getData').resolves(data);
 
 			return parser.getFilteredData().should.eventually.deep.equal({
-				'1F600': {},
-				'1F44B': {},
-				'1F44B 1F3FB': {}
+				'1F600': {
+					name: 'grinning face'
+				},
+				'1F44B': {
+					name: 'waving hand'
+				},
+				'1F44B 1F3FB': {
+					name: 'waving hand: light skin tone'
+				}
+			});
+		});
+
+		it('sets emoji name without emoji character and comment character', () => {
+			const data =
+			`
+				1F600                                      ; fully-qualified     # 😀 grinning face
+				1F44B                                      ; fully-qualified     # 👋 waving hand
+				1F44B 1F3FB                                ; fully-qualified     # 👋🏻 waving hand: light skin tone
+			`;
+
+			sinon.stub(EmojiDataApi.prototype, 'getData').resolves(data);
+
+			return parser.getFilteredData().should.eventually.deep.equal({
+				'1F600': {
+					name: 'grinning face'
+				},
+				'1F44B': {
+					name: 'waving hand'
+				},
+				'1F44B 1F3FB': {
+					name: 'waving hand: light skin tone'
+				}
 			});
 		});
 	});
