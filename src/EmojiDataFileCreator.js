@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import EmojiDataParser from '../src/EmojiDataParser.js';
 
 class EmojiDataFileCreator {
 	createFile(fileName = 'emoji-data.json') {
@@ -12,9 +13,18 @@ class EmojiDataFileCreator {
 		const cwd = process.cwd();
 		const filePath = path.join(cwd, fileName);
 
-		fs.writeFile(filePath, '', error => {
-			if (error) {
-				this._exitLog(1, `Cannot create/write ${filePath}...`, error);
+		const parser = new EmojiDataParser();
+
+		return parser.getFilteredData().then(data => {
+			if (!data) {
+				this._exitLog(1, 'No data was returned...');
+			}
+			else {
+				fs.writeFile(filePath, JSON.stringify(data), error => {
+					if (error) {
+						this._exitLog(1, `Cannot create/write ${filePath}...`, error);
+					}
+				});
 			}
 		});
 	}

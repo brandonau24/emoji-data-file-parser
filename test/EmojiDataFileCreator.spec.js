@@ -4,6 +4,7 @@ import sinonChai from 'sinon-chai';
 import path from 'path';
 import fs from 'fs';
 import EmojiDataFileCreator from '../src/EmojiDataFileCreator.js';
+import EmojiDataParser from '../src/EmojiDataParser.js';
 
 chai.use(sinonChai);
 
@@ -12,7 +13,8 @@ describe('EmojiDataFileCreator', () => {
 
 	beforeEach(() => {
 		sinon.stub(console, 'log');
-		
+		sinon.stub(EmojiDataParser.prototype, 'getFilteredData').resolves({});
+
 		emojiDataFileCreator = new EmojiDataFileCreator();
 	});
 
@@ -27,40 +29,40 @@ describe('EmojiDataFileCreator', () => {
 			writeFileStub = sinon.stub(fs, 'writeFile');
 		});
 	
-		it('makes file after checking access to cwd', () => {
+		it('makes file after checking access to cwd', async () => {
 			const cwdStub = sinon.stub(process, 'cwd').returns('cwd');
 	
 			const customFileName = 'custom-name.json';
-			emojiDataFileCreator.createFile(customFileName);
+			await emojiDataFileCreator.createFile(customFileName);
 	
-			writeFileStub.should.have.been.calledOnceWith(`${cwdStub()}${path.sep}${customFileName}`, '');
+			writeFileStub.should.have.been.calledOnceWith(`${cwdStub()}${path.sep}${customFileName}`);
 		});
 	
-		it('ends script when error occurs while writing file', () => {
+		it('ends script when error occurs while writing file', async () => {
 			writeFileStub.yields(new Error());
 	
 			const exitStub = sinon.stub(process, 'exit');
 	
-			emojiDataFileCreator.createFile('emoji-data.json');
+			await emojiDataFileCreator.createFile('emoji-data.json');
 	
 			exitStub.should.have.been.calledOnceWithExactly(1);
 		});
 	
-		it('supports default file name of emoji-data.json', () => {
+		it('supports default file name of emoji-data.json', async () => {
 			const cwdStub = sinon.stub(process, 'cwd').returns('cwd');
 	
-			emojiDataFileCreator.createFile();
+			await emojiDataFileCreator.createFile();
 	
 			writeFileStub.should.have.been.calledOnceWith(`${cwdStub}${path.sep}emoji-data.json`);
 		});
 	
-		it('ends script when arg given is not a file name', () => {
+		it('ends script when arg given is not a file name', async () => {
 			const exitStub = sinon.stub(process, 'exit');
 			const parseSpy = sinon.spy(path, 'parse');
 	
 			const filePath = '/cwd/data.json';
 	
-			emojiDataFileCreator.createFile(filePath);
+			await emojiDataFileCreator.createFile(filePath);
 	
 			parseSpy.should.have.been.calledWithExactly(filePath);
 			parseSpy.returnValues[0].should.deep.equal({
@@ -72,6 +74,34 @@ describe('EmojiDataFileCreator', () => {
 			});
 	
 			exitStub.should.have.been.calledOnceWithExactly(1);
+		});
+
+		it('writes JSON data to file', async () => {
+			const stringifyStub = sinon.stub(JSON, 'stringify');
+
+			const data = {
+				'1F600': {
+					name: 'grinning face'
+				}
+			};
+			
+			EmojiDataParser.prototype.getFilteredData.restore();
+			sinon.stub(EmojiDataParser.prototype, 'getFilteredData').resolves(data);
+
+			await emojiDataFileCreator.createFile();
+
+			stringifyStub.should.have.been.calledOnceWithExactly(data);
+		});
+
+		it('does not create file when data is null or undefined', async () => {
+			sinon.stub(process, 'exit');
+
+			EmojiDataParser.prototype.getFilteredData.restore();
+			sinon.stub(EmojiDataParser.prototype, 'getFilteredData').resolves(null);
+
+			await emojiDataFileCreator.createFile();
+
+			writeFileStub.should.not.have.been.called;
 		});
 	});
 });
