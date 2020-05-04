@@ -30,14 +30,23 @@ export default class EmojiDataParser {
 	}
 
 	_getEmojiName(codepoints, line) {
+		const prefixedCodepoints = this._prefixCodepoints(codepoints);
+		
 		//An emoji is represented by 16 bits.
-		//However, when it's encoded, it is made up of 2 or more sequences 😀 = \uD83D\uDE00
-		//Multiplying by 2 for the amount of codepoints for the emoji are how many sequences there are that appear in the string
-		const numOfSequences = codepoints.split(' ').length * 2;
+		//However, when it's encoded, it is made up of 2 or more sequences 😀 (1F600) = \uD83D\uDE00
+		//The fromCodePoint method returns \uD83D\uDE00 for 1F600 which is a length of 2 according to the standard
+		const unicodeStrLength = String.fromCodePoint(...prefixedCodepoints).length;
 		const startNameSectionIndex = line.lastIndexOf('#');
 		
-		//Add 3 due to space between # and emoji, and the emoji and its name 
-		return line.substring(startNameSectionIndex + numOfSequences + 3).trim();
+		//Add 3 due to space between # and emoji, and the emoji and its name
+		return line.substring(startNameSectionIndex + unicodeStrLength + 3).trim();
+	}
+
+	_prefixCodepoints(codepoints) {
+		//String.fromCodePoint won't accept parameters that do not have the 0x prefix
+		return codepoints.split(' ').map(codepoint => {
+			return `0x${codepoint}`;
+		});
 	}
 
 	_exitLog(exitCode, message, error) {
