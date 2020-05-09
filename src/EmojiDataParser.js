@@ -1,4 +1,4 @@
-import EmojiDataApi from './EmojiDataApi.js';
+import EmojiDataApi from 'EmojiDataApi';
 
 export default class EmojiDataParser {
 

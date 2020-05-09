@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import EmojiDataParser from '../src/EmojiDataParser.js';
+import EmojiDataParser from 'EmojiDataParser';
 
 class EmojiDataFileCreator {
 	createFile(fileName = 'emoji-data.json') {
