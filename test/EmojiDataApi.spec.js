@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import chaiAsPromised from 'chai-as-promised';
 import axios from 'axios';
-import EmojiDataApi from '../src/EmojiDataApi.js';
+import EmojiDataApi from 'EmojiDataApi';
 
 const expect = chai.expect;
 chai.should();

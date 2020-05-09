@@ -3,8 +3,8 @@ import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import path from 'path';
 import fs from 'fs';
-import EmojiDataFileCreator from '../src/EmojiDataFileCreator.js';
-import EmojiDataParser from '../src/EmojiDataParser.js';
+import EmojiDataFileCreator from 'EmojiDataFileCreator';
+import EmojiDataParser from 'EmojiDataParser';
 
 chai.use(sinonChai);
 

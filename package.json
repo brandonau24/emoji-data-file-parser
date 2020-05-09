@@ -4,9 +4,9 @@
   "description": "Parses emoji-test.txt from Unicode.org into JSON",
   "main": "index.js",
   "scripts": {
-    "build:dev": "./node_modules/.bin/webpack --config webpack.config.cjs --mode development",
-    "build:prod": "./node_modules/.bin/webpack --config webpack.config.cjs --mode production",
-    "test": "./node_modules/.bin/mocha test --color --full-trace",
+    "build:dev": "webpack --config webpack.config.cjs --mode development",
+    "build:prod": "webpack --config webpack.config.cjs --mode production",
+    "test": "webpack --config webpack.test.cjs --mode development && mocha tests.js --color --full-trace",
     "lint": "eslint **/*.js --ignore-pattern node_modules"
   },
   "author": "Brandon Au",
@@ -26,6 +26,7 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "mocha": "^7.1.1",
+    "regenerator-runtime": "^0.13.5",
     "sinon": "^9.0.2",
     "sinon-chai": "^3.5.0",
     "webpack": "^4.43.0",

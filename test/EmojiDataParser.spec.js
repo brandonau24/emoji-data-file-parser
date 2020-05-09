@@ -2,8 +2,8 @@ import chai from 'chai';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import chaiAsPromised from 'chai-as-promised';
-import EmojiDataParser from '../src/EmojiDataParser.js';
-import EmojiDataApi from '../src/EmojiDataApi.js';
+import EmojiDataParser from 'EmojiDataParser';
+import EmojiDataApi from 'EmojiDataApi';
 
 chai.should();
 chai.use(sinonChai);
