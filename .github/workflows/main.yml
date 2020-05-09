@@ -57,7 +57,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build Application with Webpack
-      uses: actions/set-node@v1
+      uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
