@@ -14,7 +14,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        node-version: [14.x]
+        node-version: [10.x, 12.x, 14.x]
 
     steps:
     - uses: actions/checkout@v2
@@ -33,7 +33,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        node-version: [14.x]
+        node-version: [10.x, 12.x, 14.x]
 
     steps:
     - uses: actions/checkout@v2
@@ -43,5 +43,24 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
     - run: npm test
+      env:
+        CI: true
+  
+  build:
+    runs-on: ${{ matrix.os }}
+    
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node-version: [10.x, 12.x, 14.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build Application with Webpack
+      uses: actions/set-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm ci
+    - run: npm run build:prod
       env:
         CI: true
