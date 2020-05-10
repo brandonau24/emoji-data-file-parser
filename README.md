@@ -12,20 +12,23 @@ This utility retrieves https://unicode.org/Public/emoji/12.0/emoji-test.txt and 
 ### Example output:
 ```
 {
-	"Smiley & Emotions": {
-		"1F600": {
-			"name": "grinning face face-smiling"
-		},
-		"1F603": {
-			"name": "grinning face with big eyes face-smiling"
-		},
-		"1F604": {
-			"name": "grinning face with smiling eyes face-smiling"
-		},
-		"1F601": {
-			"name": "beaming face with smiling eyes face-smiling"
-		}
-	},
+	"Smileys & Emotion": [
+    {
+      "codepoints": "1F600",
+      "name": "grinning face face-smiling"
+    },
+    {
+      "codepoints": "1F603",
+      "name": "grinning face with big eyes face-smiling"
+    },
+    {
+      "codepoints": "1F604",
+      "name": "grinning face with smiling eyes face-smiling"
+    },
+    {
+      "codepoints": "1F601",
+      "name": "beaming face with smiling eyes face-smiling"
+    },
 	...
 }
 ```

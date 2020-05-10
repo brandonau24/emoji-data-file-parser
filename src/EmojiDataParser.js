@@ -18,7 +18,7 @@ export default class EmojiDataParser {
 				if (line.includes('# group:')) {
 					const startOfGroupNameIndex = line.indexOf(':') + 2;
 					groupName = line.substring(startOfGroupNameIndex);
-					filteredData[groupName] = {};
+					filteredData[groupName] = [];
 					currentGroup = filteredData[groupName];
 				}
 				else if (line.includes('# subgroup:')) {
@@ -34,9 +34,10 @@ export default class EmojiDataParser {
 					const codepoints = line.substring(0, endCodepointSectionIndex).trim();
 					const emojiName = this._getEmojiName(codepoints, line);
 
-					currentGroup[codepoints] = {
+					currentGroup.push({
+						codepoints,
 						name: `${emojiName} ${subgroup}`
-					};
+					});
 				}
 			}
 

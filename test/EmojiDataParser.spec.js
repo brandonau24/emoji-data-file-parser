@@ -46,17 +46,20 @@ describe('EmojiDataParser', () => {
 			sinon.stub(EmojiDataApi.prototype, 'getData').resolves(data);
 
 			return parser.getFilteredData().should.eventually.deep.equal({
-				'group': {
-					'1F600': {
+				'group': [
+					{
+						codepoints: '1F600',
 						name: 'grinning face subgroup'
 					},
-					'1F44B': {
+					{
+						codepoints: '1F44B',
 						name: 'waving hand subgroup'
 					},
-					'1F44B 1F3FB': {
+					{
+						codepoints: '1F44B 1F3FB',
 						name: 'waving hand: light skin tone subgroup'
 					}
-				}
+				]
 			});
 		});
 
@@ -73,17 +76,20 @@ describe('EmojiDataParser', () => {
 			sinon.stub(EmojiDataApi.prototype, 'getData').resolves(data);
 
 			return parser.getFilteredData().should.eventually.deep.equal({
-				'group': {
-					'1F600': {
+				'group': [
+					{
+						codepoints: '1F600',
 						name: 'grinning face subgroup'
 					},
-					'1F44B': {
+					{
+						codepoints: '1F44B',
 						name: 'waving hand subgroup'
 					},
-					'1F44B 1F3FB': {
+					{
+						codepoints: '1F44B 1F3FB',
 						name: 'waving hand: light skin tone subgroup'
 					}
-				}
+				]
 			});
 		});
 
@@ -102,17 +108,20 @@ describe('EmojiDataParser', () => {
 			sinon.stub(EmojiDataApi.prototype, 'getData').resolves(data);
 
 			return parser.getFilteredData().should.eventually.deep.equal({
-				'group': {
-					'1F600': {
+				'group': [
+					{
+						codepoints: '1F600',
 						name: 'grinning face face-smiling'
 					},
-					'1F970': {
+					{
+						codepoints: '1F970',
 						name: 'smiling face with hearts face-affection'
 					},
-					'1F4A9': {
+					{
+						codepoints: '1F4A9',
 						name: 'pile of poo face-costume'
 					}
-				}
+				]
 			});
 		});
 
@@ -134,25 +143,30 @@ describe('EmojiDataParser', () => {
 			sinon.stub(EmojiDataApi.prototype, 'getData').resolves(data);
 
 			return parser.getFilteredData().should.eventually.deep.equal({
-				'Smiley & Emotions': {
-					'1F600': {
+				'Smiley & Emotions': [
+					{
+						codepoints: '1F600',
 						name: 'grinning face face-smiling'
 					},
-					'1F970': {
+					{
+						codepoints: '1F970',
 						name: 'smiling face with hearts face-smiling'
 					},
-					'1F4A9': {
+					{
+						codepoints: '1F4A9',
 						name: 'pile of poo face-smiling'
 					}
-				},
-				'Animals & Nature': {
-					'1F435': {
+				],
+				'Animals & Nature': [
+					{
+						codepoints: '1F435',
 						name: 'monkey face animal-mammal'
 					},
-					'1F412': {
+					{
+						codepoints: '1F412',
 						name: 'monkey animal-mammal'
 					}
-				}
+				]
 			});
 		});
 	});

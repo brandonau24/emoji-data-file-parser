@@ -80,9 +80,12 @@ describe('EmojiDataFileCreator', () => {
 			const stringifyStub = sinon.stub(JSON, 'stringify');
 
 			const data = {
-				'1F600': {
-					name: 'grinning face'
-				}
+				group: [
+					{
+						codepoints: '1F600',
+						name: 'grinning face'
+					}
+				]
 			};
 			
 			EmojiDataParser.prototype.getFilteredData.restore();
