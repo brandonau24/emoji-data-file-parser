@@ -34,6 +34,8 @@ describe('EmojiDataParser', () => {
 			const data =
 			`
 				# This is a comment
+				# group: group
+				# subgroup: subgroup
 				1F600                                      ; fully-qualified     # 😀 grinning face
 				263A                                       ; unqualified         # ☺ smiling face
 				1F44B                                      ; fully-qualified     # 👋 waving hand
@@ -44,14 +46,16 @@ describe('EmojiDataParser', () => {
 			sinon.stub(EmojiDataApi.prototype, 'getData').resolves(data);
 
 			return parser.getFilteredData().should.eventually.deep.equal({
-				'1F600': {
-					name: 'grinning face'
-				},
-				'1F44B': {
-					name: 'waving hand'
-				},
-				'1F44B 1F3FB': {
-					name: 'waving hand: light skin tone'
+				'group': {
+					'1F600': {
+						name: 'grinning face subgroup'
+					},
+					'1F44B': {
+						name: 'waving hand subgroup'
+					},
+					'1F44B 1F3FB': {
+						name: 'waving hand: light skin tone subgroup'
+					}
 				}
 			});
 		});
@@ -59,6 +63,8 @@ describe('EmojiDataParser', () => {
 		it('sets emoji name without emoji character and comment character', () => {
 			const data =
 			`
+				# group: group
+				# subgroup: subgroup
 				1F600                                      ; fully-qualified     # 😀 grinning face
 				1F44B                                      ; fully-qualified     # 👋 waving hand
 				1F44B 1F3FB                                ; fully-qualified     # 👋🏻 waving hand: light skin tone
@@ -67,14 +73,16 @@ describe('EmojiDataParser', () => {
 			sinon.stub(EmojiDataApi.prototype, 'getData').resolves(data);
 
 			return parser.getFilteredData().should.eventually.deep.equal({
-				'1F600': {
-					name: 'grinning face'
-				},
-				'1F44B': {
-					name: 'waving hand'
-				},
-				'1F44B 1F3FB': {
-					name: 'waving hand: light skin tone'
+				'group': {
+					'1F600': {
+						name: 'grinning face subgroup'
+					},
+					'1F44B': {
+						name: 'waving hand subgroup'
+					},
+					'1F44B 1F3FB': {
+						name: 'waving hand: light skin tone subgroup'
+					}
 				}
 			});
 		});
@@ -82,6 +90,7 @@ describe('EmojiDataParser', () => {
 		it('adds sub-group to emoji name', () => {
 			const data =
 			`
+				# group: group
 				# subgroup: face-smiling
 				1F600                                      ; fully-qualified     # 😀 grinning face
 				# subgroup: face-affection
@@ -93,14 +102,56 @@ describe('EmojiDataParser', () => {
 			sinon.stub(EmojiDataApi.prototype, 'getData').resolves(data);
 
 			return parser.getFilteredData().should.eventually.deep.equal({
-				'1F600': {
-					name: 'grinning face face-smiling'
+				'group': {
+					'1F600': {
+						name: 'grinning face face-smiling'
+					},
+					'1F970': {
+						name: 'smiling face with hearts face-affection'
+					},
+					'1F4A9': {
+						name: 'pile of poo face-costume'
+					}
+				}
+			});
+		});
+
+		it('creates emoji groups', () => {
+			const data =
+				`
+				# group: Smiley & Emotions
+				# subgroup: face-smiling
+				1F600                                      ; fully-qualified     # 😀 grinning face
+				1F970                                      ; fully-qualified     # 🥰 smiling face with hearts
+				1F4A9                                      ; fully-qualified     # 💩 pile of poo
+				
+				# group: Animals & Nature
+				# subgroup: animal-mammal
+				1F435                                      ; fully-qualified     # 🐵 monkey face
+				1F412                                      ; fully-qualified     # 🐒 monkey
+			`;
+
+			sinon.stub(EmojiDataApi.prototype, 'getData').resolves(data);
+
+			return parser.getFilteredData().should.eventually.deep.equal({
+				'Smiley & Emotions': {
+					'1F600': {
+						name: 'grinning face face-smiling'
+					},
+					'1F970': {
+						name: 'smiling face with hearts face-smiling'
+					},
+					'1F4A9': {
+						name: 'pile of poo face-smiling'
+					}
 				},
-				'1F970': {
-					name: 'smiling face with hearts face-affection'
-				},
-				'1F4A9': {
-					name: 'pile of poo face-costume'
+				'Animals & Nature': {
+					'1F435': {
+						name: 'monkey face animal-mammal'
+					},
+					'1F412': {
+						name: 'monkey animal-mammal'
+					}
 				}
 			});
 		});

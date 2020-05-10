@@ -7,15 +7,23 @@ export default class EmojiDataParser {
 
 		return emojiDataApi.getData().then(data => {
 			let filteredData = {};
+			let groupName;
+			let currentGroup;
 			let subgroup;
 			const lines = data.split('\n');
 
 			for (let line of lines) {
 				line = line.trim();
 
-				if (line.includes('# subgroup:')) {
-					const colonIndex = line.indexOf(':');
-					subgroup = line.substring(colonIndex + 2).trim();
+				if (line.includes('# group:')) {
+					const startOfGroupNameIndex = line.indexOf(':') + 2;
+					groupName = line.substring(startOfGroupNameIndex);
+					filteredData[groupName] = {};
+					currentGroup = filteredData[groupName];
+				}
+				else if (line.includes('# subgroup:')) {
+					const startOfSubgroupIndex = line.indexOf(':') + 2;
+					subgroup = line.substring(startOfSubgroupIndex);
 				}
 				else if (line.charAt(0) === '#') {
 					continue;
@@ -25,10 +33,9 @@ export default class EmojiDataParser {
 					const endCodepointSectionIndex = line.indexOf(';');
 					const codepoints = line.substring(0, endCodepointSectionIndex).trim();
 					const emojiName = this._getEmojiName(codepoints, line);
-					const name = subgroup ? `${emojiName} ${subgroup}` : emojiName;
 
-					filteredData[codepoints] = {
-						name
+					currentGroup[codepoints] = {
+						name: `${emojiName} ${subgroup}`
 					};
 				}
 			}
