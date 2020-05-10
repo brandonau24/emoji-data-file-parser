@@ -1,12 +1,14 @@
 const path = require('path');
+const RemovePlugin = require('remove-files-webpack-plugin');
 
 const srcPath = path.resolve(__dirname, 'src');
+const outputBundleName = 'emoji-data-file-parser.js';
 
 module.exports = {
 	entry: path.resolve(srcPath, 'index.js'),
 	output: {
 		path: path.resolve(__dirname),
-		filename: 'emoji-data-file-parser.js'
+		filename: outputBundleName
 	},
 	resolve: {
 		alias: {
@@ -30,5 +32,12 @@ module.exports = {
 			}	
 		],
 	},
-	target: 'async-node'
+	target: 'async-node',
+	plugins: [
+		new RemovePlugin({
+			before: {
+				include: [outputBundleName]
+			}
+		})
+	]
 };

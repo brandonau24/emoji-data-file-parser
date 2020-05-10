@@ -1,13 +1,15 @@
 const path = require('path');
+const RemovePlugin = require('remove-files-webpack-plugin');
 
 const srcPath = path.resolve(__dirname, 'src');
 const testPath = path.resolve(__dirname, 'test');
+const outputBundleName = 'tests.js';
 
 module.exports = {
 	entry: path.resolve(testPath, 'index.js'),
 	output: {
 		path: path.resolve(__dirname),
-		filename: 'tests.js'
+		filename: outputBundleName
 	},
 	resolve: {
 		alias: {
@@ -34,5 +36,12 @@ module.exports = {
 		],
 	},
 	target: 'node',
-	devtool: 'cheap-eval-source-map'
+	devtool: 'cheap-eval-source-map',
+	plugins: [
+		new RemovePlugin({
+			before: {
+				include: [outputBundleName]
+			}
+		})
+	]
 };
