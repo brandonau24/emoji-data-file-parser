@@ -23,12 +23,7 @@ describe('EmojiDataParser', () => {
 
 	describe('#filterData', () => {
 		it('ignores comments', () => {
-			const data =
-			`
-				# This is a comment
-				# group: Group-1
-				# subgroup: subgroup-1
-			`;
+			const data = '# This is a comment';
 
 			sinon.stub(EmojiDataApi.prototype, 'getData').resolves(data);
 
@@ -39,8 +34,6 @@ describe('EmojiDataParser', () => {
 			const data =
 			`
 				# This is a comment
-				# group: Group-1
-				# subgroup: subgroup-1
 				1F600                                      ; fully-qualified     # 😀 grinning face
 				263A                                       ; unqualified         # ☺ smiling face
 				1F44B                                      ; fully-qualified     # 👋 waving hand
@@ -82,6 +75,32 @@ describe('EmojiDataParser', () => {
 				},
 				'1F44B 1F3FB': {
 					name: 'waving hand: light skin tone'
+				}
+			});
+		});
+
+		it('adds sub-group to emoji name', () => {
+			const data =
+			`
+				# subgroup: face-smiling
+				1F600                                      ; fully-qualified     # 😀 grinning face
+				# subgroup: face-affection
+				1F970                                      ; fully-qualified     # 🥰 smiling face with hearts
+				# subgroup: face-costume
+				1F4A9                                      ; fully-qualified     # 💩 pile of poo
+			`;
+
+			sinon.stub(EmojiDataApi.prototype, 'getData').resolves(data);
+
+			return parser.getFilteredData().should.eventually.deep.equal({
+				'1F600': {
+					name: 'grinning face face-smiling'
+				},
+				'1F970': {
+					name: 'smiling face with hearts face-affection'
+				},
+				'1F4A9': {
+					name: 'pile of poo face-costume'
 				}
 			});
 		});
