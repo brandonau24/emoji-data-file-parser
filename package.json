@@ -4,10 +4,10 @@
   "description": "Parses emoji-test.txt from Unicode.org into JSON",
   "main": "index.js",
   "scripts": {
-    "build:dev": "webpack --config webpack.config.cjs --mode development",
-    "build:prod": "webpack --config webpack.config.cjs --mode production",
-    "test": "mochapack --webpack-config webpack.test.cjs --mode development \"test/**/*.spec.js\"",
-    "test:watch": "mochapack --webpack-config webpack.test.cjs --mode development --watch \"test/**/*.spec.js\"",
+    "build:dev": "webpack --config webpack.config.js --mode development",
+    "build:prod": "webpack --config webpack.config.js --mode production",
+    "test": "mochapack --webpack-config webpack.test.js --mode development \"test/**/*.spec.js\"",
+    "test:watch": "mochapack --webpack-config webpack.test.js --mode development --watch \"test/**/*.spec.js\"",
     "lint": "eslint \"**/*.js\" --ignore-pattern node_modules"
   },
   "author": "Brandon Au",
