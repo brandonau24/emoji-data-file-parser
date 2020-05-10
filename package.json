@@ -6,7 +6,8 @@
   "scripts": {
     "build:dev": "webpack --config webpack.config.cjs --mode development",
     "build:prod": "webpack --config webpack.config.cjs --mode production",
-    "test": "webpack --config webpack.test.cjs --mode development && mocha tests.js --color --full-trace",
+    "test": "mochapack --webpack-config webpack.test.cjs --mode development \"test/**/*.spec.js\"",
+    "test:watch": "mochapack --webpack-config webpack.test.cjs --mode development --watch \"test/**/*.spec.js\"",
     "lint": "eslint \"**/*.js\" --ignore-pattern node_modules"
   },
   "author": "Brandon Au",
@@ -26,12 +27,13 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "mocha": "^7.1.1",
-    "regenerator-runtime": "^0.13.5",
+    "mochapack": "^2.0.0",
     "remove-files-webpack-plugin": "^1.4.1",
     "sinon": "^9.0.2",
     "sinon-chai": "^3.5.0",
     "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.11"
+    "webpack-cli": "^3.3.11",
+    "webpack-node-externals": "^1.7.2"
   },
   "repository": {
     "type": "git",

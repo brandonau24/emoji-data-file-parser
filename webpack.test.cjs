@@ -1,16 +1,9 @@
 const path = require('path');
-const RemovePlugin = require('remove-files-webpack-plugin');
+const nodeExternals = require('webpack-node-externals');
 
 const srcPath = path.resolve(__dirname, 'src');
-const testPath = path.resolve(__dirname, 'test');
-const outputBundleName = 'tests.js';
 
 module.exports = {
-	entry: path.resolve(testPath, 'index.js'),
-	output: {
-		path: path.resolve(__dirname),
-		filename: outputBundleName
-	},
 	resolve: {
 		alias: {
 			EmojiDataApi: path.resolve(srcPath, 'EmojiDataApi.js'),
@@ -19,29 +12,7 @@ module.exports = {
 		},
 		extensions: ['.js']
 	},
-	module: {
-		rules: [
-			{
-				test: /spec\.js$/,
-				exclude: /node_modules/,
-				use: [
-					{
-						loader: 'babel-loader',
-						options: {
-							presets: ['@babel/preset-env']
-						}
-					}
-				]
-			}
-		],
-	},
 	target: 'node',
-	devtool: 'cheap-eval-source-map',
-	plugins: [
-		new RemovePlugin({
-			before: {
-				include: [outputBundleName]
-			}
-		})
-	]
+	devtool: 'inline-cheap-module-source-map',
+	externals: [nodeExternals()]
 };
