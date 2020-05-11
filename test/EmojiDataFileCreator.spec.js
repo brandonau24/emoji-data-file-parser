@@ -41,11 +41,14 @@ describe('EmojiDataFileCreator', () => {
 		});
 	
 		it('ends script when error occurs while writing file', async () => {
-			writeFileStub.yields(new Error());
+			const filePath = path.join(process.cwd(), 'emoji-data.json');
+			const error = new Error();
+
+			writeFileStub.yields(error);
 	
 			await emojiDataFileCreator.createFile('emoji-data.json');
-	
-			exitLogStub.should.have.been.calledOnce;
+
+			exitLogStub.should.have.been.calledOnceWithExactly(1, `Cannot create/write ${filePath}...`, error);
 		});
 	
 		it('supports default file name of emoji-data.json', async () => {
@@ -72,7 +75,7 @@ describe('EmojiDataFileCreator', () => {
 				name: 'data'
 			});
 	
-			exitLogStub.should.have.been.calledOnce;
+			exitLogStub.should.have.been.calledOnceWithExactly(1, `The provided name ${filePath} is a path or a file name including a path. This program only supports creating the file in the current working directory (the directory this script was ran in).`);
 		});
 
 		it('writes JSON data to file', async () => {
@@ -102,7 +105,7 @@ describe('EmojiDataFileCreator', () => {
 			await emojiDataFileCreator.createFile();
 
 			writeFileStub.should.not.have.been.called;
-			exitLogStub.should.have.been.calledOnce;
+			exitLogStub.should.have.been.calledOnceWithExactly(1, 'No data was returned...');
 		});
 	});
 });
