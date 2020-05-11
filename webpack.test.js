@@ -8,7 +8,8 @@ module.exports = {
 		alias: {
 			EmojiDataApi: path.resolve(srcPath, 'EmojiDataApi.js'),
 			EmojiDataFileCreator: path.resolve(srcPath, 'EmojiDataFileCreator.js'),
-			EmojiDataParser: path.resolve(srcPath, 'EmojiDataParser.js')
+			EmojiDataParser: path.resolve(srcPath, 'EmojiDataParser.js'),
+			Logger: path.resolve(srcPath, 'Logger.js')
 		},
 		extensions: ['.js']
 	},

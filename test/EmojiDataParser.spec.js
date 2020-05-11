@@ -14,7 +14,6 @@ describe('EmojiDataParser', () => {
 
 	beforeEach(() => {
 		parser = new EmojiDataParser();
-		sinon.stub(console, 'log');
 	});
 
 	afterEach(() => {

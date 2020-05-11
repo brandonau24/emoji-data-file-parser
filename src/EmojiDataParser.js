@@ -66,11 +66,4 @@ export default class EmojiDataParser {
 			return `0x${codepoint}`;
 		});
 	}
-
-	_exitLog(exitCode, message, error) {
-		console.log(message);
-		console.log(error);
-		console.log('Exiting...');
-		process.exit(exitCode);
-	}
 }
