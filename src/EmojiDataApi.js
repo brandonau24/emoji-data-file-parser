@@ -15,6 +15,8 @@ export default class EmojiDataApi {
 			responseEncoding: 'utf8'
 		};
 
+		console.log(`Getting emoji-test.txt v${version} file...`);
+
 		return axios.get(`https://www.unicode.org/Public/emoji/${version}/emoji-test.txt`, options)
 			.then(response => {
 				return response.data;

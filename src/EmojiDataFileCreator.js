@@ -20,6 +20,8 @@ class EmojiDataFileCreator {
 				this._exitLog(1, 'No data was returned...');
 			}
 			else {
+				console.log(`Creating ${fileName}...`);
+
 				fs.writeFile(filePath, JSON.stringify(data), error => {
 					if (error) {
 						this._exitLog(1, `Cannot create/write ${filePath}...`, error);

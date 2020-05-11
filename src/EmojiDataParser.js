@@ -6,6 +6,8 @@ export default class EmojiDataParser {
 		const emojiDataApi = new EmojiDataApi();
 
 		return emojiDataApi.getData().then(data => {
+			console.log('Filtering data...');
+			
 			let filteredData = {};
 			let groupName;
 			let currentGroup;
