@@ -6,6 +6,10 @@ export default class EmojiDataParser {
 		const emojiDataApi = new EmojiDataApi();
 
 		return emojiDataApi.getData(version).then(data => {
+			if (!data) {
+				return null;
+			}
+
 			console.log('Filtering data...');
 			
 			let filteredData = {};

@@ -177,5 +177,11 @@ describe('EmojiDataParser', () => {
 
 			getDataStub.should.have.been.calledOnceWithExactly(version);
 		});
+
+		it('receives nullfrom API and returns null', () => {
+			sinon.stub(EmojiDataApi.prototype, 'getData').resolves(null);
+
+			return parser.getFilteredData().should.eventually.be.null;
+		});
 	});
 });
