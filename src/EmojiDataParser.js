@@ -1,11 +1,11 @@
-import EmojiDataApi from 'EmojiDataApi';
+import EmojiDataRetriever from 'EmojiDataRetriever';
 
 export default class EmojiDataParser {
 
 	getFilteredData(version) {
-		const emojiDataApi = new EmojiDataApi();
+		const emojiDataRetriever = new EmojiDataRetriever();
 
-		return emojiDataApi.getData(version).then(data => {
+		return emojiDataRetriever.getData(version).then(data => {
 			if (!data) {
 				return null;
 			}

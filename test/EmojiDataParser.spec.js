@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import chaiAsPromised from 'chai-as-promised';
 import EmojiDataParser from 'EmojiDataParser';
-import EmojiDataApi from 'EmojiDataApi';
+import EmojiDataRetriever from 'EmojiDataRetriever';
 
 chai.should();
 chai.use(sinonChai);
@@ -24,7 +24,7 @@ describe('EmojiDataParser', () => {
 		it('ignores comments', () => {
 			const data = '# This is a comment';
 
-			sinon.stub(EmojiDataApi.prototype, 'getData').resolves(data);
+			sinon.stub(EmojiDataRetriever.prototype, 'getData').resolves(data);
 
 			return parser.getFilteredData().should.eventually.deep.equal({});
 		});
@@ -42,7 +42,7 @@ describe('EmojiDataParser', () => {
 				1F471 200D 2642                            ; minimally-qualified # 👱‍♂ man: blond hair
 			`;
 
-			sinon.stub(EmojiDataApi.prototype, 'getData').resolves(data);
+			sinon.stub(EmojiDataRetriever.prototype, 'getData').resolves(data);
 
 			return parser.getFilteredData().should.eventually.deep.equal({
 				'group': [
@@ -72,7 +72,7 @@ describe('EmojiDataParser', () => {
 				1F44B 1F3FB                                ; fully-qualified     # 👋🏻 waving hand: light skin tone
 			`;
 
-			sinon.stub(EmojiDataApi.prototype, 'getData').resolves(data);
+			sinon.stub(EmojiDataRetriever.prototype, 'getData').resolves(data);
 
 			return parser.getFilteredData().should.eventually.deep.equal({
 				'group': [
@@ -104,7 +104,7 @@ describe('EmojiDataParser', () => {
 				1F4A9                                      ; fully-qualified     # 💩 pile of poo
 			`;
 
-			sinon.stub(EmojiDataApi.prototype, 'getData').resolves(data);
+			sinon.stub(EmojiDataRetriever.prototype, 'getData').resolves(data);
 
 			return parser.getFilteredData().should.eventually.deep.equal({
 				'group': [
@@ -139,7 +139,7 @@ describe('EmojiDataParser', () => {
 				1F412                                      ; fully-qualified     # 🐒 monkey
 			`;
 
-			sinon.stub(EmojiDataApi.prototype, 'getData').resolves(data);
+			sinon.stub(EmojiDataRetriever.prototype, 'getData').resolves(data);
 
 			return parser.getFilteredData().should.eventually.deep.equal({
 				'Smiley & Emotions': [
@@ -170,7 +170,7 @@ describe('EmojiDataParser', () => {
 		});
 
 		it('passes version number to API', () => {
-			const getDataStub = sinon.stub(EmojiDataApi.prototype, 'getData').resolves('');
+			const getDataStub = sinon.stub(EmojiDataRetriever.prototype, 'getData').resolves('');
 			const version = '13.0';
 
 			parser.getFilteredData(version);
@@ -179,7 +179,7 @@ describe('EmojiDataParser', () => {
 		});
 
 		it('receives nullfrom API and returns null', () => {
-			sinon.stub(EmojiDataApi.prototype, 'getData').resolves(null);
+			sinon.stub(EmojiDataRetriever.prototype, 'getData').resolves(null);
 
 			return parser.getFilteredData().should.eventually.be.null;
 		});

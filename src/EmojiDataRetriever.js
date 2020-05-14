@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export default class EmojiDataApi {
+export default class EmojiDataRetriever {
 	getData(version) {
 		if (Number.isNaN(parseFloat(version))) {
 			return null;

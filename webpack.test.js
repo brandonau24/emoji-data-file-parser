@@ -6,7 +6,7 @@ const srcPath = path.resolve(__dirname, 'src');
 module.exports = {
 	resolve: {
 		alias: {
-			EmojiDataApi: path.resolve(srcPath, 'EmojiDataApi.js'),
+			EmojiDataRetriever: path.resolve(srcPath, 'EmojiDataRetriever.js'),
 			EmojiDataFileCreator: path.resolve(srcPath, 'EmojiDataFileCreator.js'),
 			EmojiDataParser: path.resolve(srcPath, 'EmojiDataParser.js'),
 			Logger: path.resolve(srcPath, 'Logger.js')

@@ -3,22 +3,22 @@ import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import chaiAsPromised from 'chai-as-promised';
 import axios from 'axios';
-import EmojiDataApi from 'EmojiDataApi';
+import EmojiDataRetriever from 'EmojiDataRetriever';
 
 const expect = chai.expect;
 chai.should();
 chai.use(sinonChai);
 chai.use(chaiAsPromised);
 
-describe('EmojiDataApi', () => {
+describe('EmojiDataRetriever', () => {
 	let getStub;
-	let emojiDataApi;
+	let retriever;
 	
 	beforeEach(() => {
 		getStub = sinon.stub(axios, 'get').resolves();
 		sinon.stub(console, 'log');
 
-		emojiDataApi = new EmojiDataApi();
+		retriever = new EmojiDataRetriever();
 	});
 
 	afterEach(() => {
@@ -26,14 +26,14 @@ describe('EmojiDataApi', () => {
 	});
 
 	it('makes a request to get emoji data file with specific version', () => {
-		emojiDataApi.getData('13.0');
+		retriever.getData('13.0');
 
 		const expectedRequestUrl = 'https://www.unicode.org/Public/emoji/13.0/emoji-test.txt';
 		getStub.should.have.been.calledOnceWith(expectedRequestUrl);
 	});
 
 	it('makes a request with proper http headers', () => {
-		emojiDataApi.getData('12.0');
+		retriever.getData('12.0');
 
 		const expectedRequestUrl = 'https://www.unicode.org/Public/emoji/12.0/emoji-test.txt';
 		const expectedOptions = {
@@ -52,7 +52,7 @@ describe('EmojiDataApi', () => {
 		const isNanSpy = sinon.spy(Number, 'isNaN');
 		const parseFloatSpy = sinon.spy(parseFloat);
 
-		const actual = emojiDataApi.getData('a');
+		const actual = retriever.getData('a');
 
 		isNanSpy.should.have.returned(true);
 		isNaN(parseFloatSpy.returnValues[0]).should.be.true;
@@ -67,7 +67,7 @@ describe('EmojiDataApi', () => {
 			}
 		});
 
-		return emojiDataApi.getData('12.0').should.eventually.be.null;
+		return retriever.getData('12.0').should.eventually.be.null;
 	});
 	
 	it('returns no data when there is no response', () => {
@@ -78,7 +78,7 @@ describe('EmojiDataApi', () => {
 			}
 		});
 
-		return emojiDataApi.getData('12.0').should.eventually.be.null;
+		return retriever.getData('12.0').should.eventually.be.null;
 	});
 
 	it('returns no data when there is a problem with axios setup', () => {
@@ -86,7 +86,7 @@ describe('EmojiDataApi', () => {
 			message: 'Some Axios Error'
 		});
 
-		return emojiDataApi.getData('12.0').should.eventually.be.null;
+		return retriever.getData('12.0').should.eventually.be.null;
 	});
 
 	it('returns emoji data text file when request is successful', () => {
@@ -102,6 +102,6 @@ describe('EmojiDataApi', () => {
 			data
 		});
 
-		return emojiDataApi.getData('12.0').should.eventually.equal(data);
+		return retriever.getData('12.0').should.eventually.equal(data);
 	});
 });
