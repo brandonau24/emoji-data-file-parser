@@ -12,10 +12,11 @@ chai.use(sinonChai);
 describe('EmojiDataFileCreator', () => {
 	let emojiDataFileCreator;
 	let exitLogStub;
+	let getFilteredDataStub;
 
 	beforeEach(() => {
 		exitLogStub = sinon.stub(Logger, 'exitLog');
-		sinon.stub(EmojiDataParser.prototype, 'getFilteredData').resolves({});
+		getFilteredDataStub = sinon.stub(EmojiDataParser.prototype, 'getFilteredData').resolves({});
 
 		emojiDataFileCreator = new EmojiDataFileCreator();
 	});
@@ -106,6 +107,14 @@ describe('EmojiDataFileCreator', () => {
 
 			writeFileStub.should.not.have.been.called;
 			exitLogStub.should.have.been.calledOnceWithExactly(1, 'No data was returned...');
+		});
+
+		it('passes version number to data parser', () => {
+			const version = '13.0';
+
+			emojiDataFileCreator.createFile('emoji-data.json', version);
+
+			getFilteredDataStub.should.have.been.calledOnceWithExactly(version);
 		});
 	});
 });

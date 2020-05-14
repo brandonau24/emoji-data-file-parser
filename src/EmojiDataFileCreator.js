@@ -4,7 +4,7 @@ import EmojiDataParser from 'EmojiDataParser';
 import Logger from 'Logger';
 
 class EmojiDataFileCreator {
-	createFile(fileName = 'emoji-data.json') {
+	createFile(fileName = 'emoji-data.json', version) {
 		const parsedFileName = path.parse(fileName);
 
 		if (parsedFileName.root || parsedFileName.dir) {
@@ -16,7 +16,7 @@ class EmojiDataFileCreator {
 
 		const parser = new EmojiDataParser();
 
-		return parser.getFilteredData().then(data => {
+		return parser.getFilteredData(version).then(data => {
 			if (!data) {
 				Logger.exitLog(1, 'No data was returned...');
 			}
