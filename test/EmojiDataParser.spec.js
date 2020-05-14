@@ -10,6 +10,7 @@ chai.use(sinonChai);
 chai.use(chaiAsPromised);
 
 describe('EmojiDataParser', () => {
+	const version = '12.0';
 	let parser;
 
 	beforeEach(() => {
@@ -26,7 +27,9 @@ describe('EmojiDataParser', () => {
 
 			sinon.stub(EmojiDataRetriever.prototype, 'getData').resolves(data);
 
-			return parser.getFilteredData().should.eventually.deep.equal({});
+			return parser.getFilteredData(version).should.eventually.deep.equal({
+				version
+			});
 		});
 
 		it('picks only fully-qualified emoji codepoints', () => {
@@ -44,7 +47,8 @@ describe('EmojiDataParser', () => {
 
 			sinon.stub(EmojiDataRetriever.prototype, 'getData').resolves(data);
 
-			return parser.getFilteredData().should.eventually.deep.equal({
+			return parser.getFilteredData(version).should.eventually.deep.equal({
+				version,
 				'group': [
 					{
 						codepoints: '1F600',
@@ -74,7 +78,8 @@ describe('EmojiDataParser', () => {
 
 			sinon.stub(EmojiDataRetriever.prototype, 'getData').resolves(data);
 
-			return parser.getFilteredData().should.eventually.deep.equal({
+			return parser.getFilteredData(version).should.eventually.deep.equal({
+				version,
 				'group': [
 					{
 						codepoints: '1F600',
@@ -106,7 +111,8 @@ describe('EmojiDataParser', () => {
 
 			sinon.stub(EmojiDataRetriever.prototype, 'getData').resolves(data);
 
-			return parser.getFilteredData().should.eventually.deep.equal({
+			return parser.getFilteredData(version).should.eventually.deep.equal({
+				version,
 				'group': [
 					{
 						codepoints: '1F600',
@@ -141,7 +147,8 @@ describe('EmojiDataParser', () => {
 
 			sinon.stub(EmojiDataRetriever.prototype, 'getData').resolves(data);
 
-			return parser.getFilteredData().should.eventually.deep.equal({
+			return parser.getFilteredData(version).should.eventually.deep.equal({
+				version,
 				'Smiley & Emotions': [
 					{
 						codepoints: '1F600',
@@ -171,7 +178,6 @@ describe('EmojiDataParser', () => {
 
 		it('passes version number to API', () => {
 			const getDataStub = sinon.stub(EmojiDataRetriever.prototype, 'getData').resolves('');
-			const version = '13.0';
 
 			parser.getFilteredData(version);
 
@@ -182,6 +188,14 @@ describe('EmojiDataParser', () => {
 			sinon.stub(EmojiDataRetriever.prototype, 'getData').resolves(null);
 
 			return parser.getFilteredData().should.eventually.be.null;
+		});
+
+		it('sets Unicode version property', () => {
+			sinon.stub(EmojiDataRetriever.prototype, 'getData').resolves('data');
+
+			return parser.getFilteredData(version).should.eventually.deep.equal({
+				version
+			});
 		});
 	});
 });

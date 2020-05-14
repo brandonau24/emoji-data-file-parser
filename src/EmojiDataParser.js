@@ -12,7 +12,9 @@ export default class EmojiDataParser {
 
 			console.log('Filtering data...');
 			
-			let filteredData = {};
+			let filteredData = {
+				version
+			};
 			let groupName;
 			let currentGroup;
 			let subgroup;
