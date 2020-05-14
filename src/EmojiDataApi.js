@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export default class EmojiDataApi {
-	getData(version = '12.0') {
+	getData(version) {
 		if (Number.isNaN(parseFloat(version))) {
 			return null;
 		}

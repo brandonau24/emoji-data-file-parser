@@ -25,13 +25,6 @@ describe('EmojiDataApi', () => {
 		sinon.restore();
 	});
 
-	it('makes a request to get emoji data file with default version', () => {
-		emojiDataApi.getData();
-
-		const expectedRequestUrl = 'https://www.unicode.org/Public/emoji/12.0/emoji-test.txt';
-		getStub.should.have.been.calledOnceWith(expectedRequestUrl);
-	});
-
 	it('makes a request to get emoji data file with specific version', () => {
 		emojiDataApi.getData('13.0');
 
@@ -40,7 +33,7 @@ describe('EmojiDataApi', () => {
 	});
 
 	it('makes a request with proper http headers', () => {
-		emojiDataApi.getData();
+		emojiDataApi.getData('12.0');
 
 		const expectedRequestUrl = 'https://www.unicode.org/Public/emoji/12.0/emoji-test.txt';
 		const expectedOptions = {
@@ -74,7 +67,7 @@ describe('EmojiDataApi', () => {
 			}
 		});
 
-		return emojiDataApi.getData().should.eventually.be.null;
+		return emojiDataApi.getData('12.0').should.eventually.be.null;
 	});
 	
 	it('returns no data when there is no response', () => {
@@ -85,7 +78,7 @@ describe('EmojiDataApi', () => {
 			}
 		});
 
-		return emojiDataApi.getData().should.eventually.be.null;
+		return emojiDataApi.getData('12.0').should.eventually.be.null;
 	});
 
 	it('returns no data when there is a problem with axios setup', () => {
@@ -93,7 +86,7 @@ describe('EmojiDataApi', () => {
 			message: 'Some Axios Error'
 		});
 
-		return emojiDataApi.getData().should.eventually.be.null;
+		return emojiDataApi.getData('12.0').should.eventually.be.null;
 	});
 
 	it('returns emoji data text file when request is successful', () => {
@@ -109,6 +102,6 @@ describe('EmojiDataApi', () => {
 			data
 		});
 
-		return emojiDataApi.getData().should.eventually.equal(data);
+		return emojiDataApi.getData('12.0').should.eventually.equal(data);
 	});
 });
