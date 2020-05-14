@@ -168,5 +168,14 @@ describe('EmojiDataParser', () => {
 				]
 			});
 		});
+
+		it('passes version number to API', () => {
+			const getDataStub = sinon.stub(EmojiDataApi.prototype, 'getData').resolves('');
+			const version = '13.0';
+
+			parser.getFilteredData(version);
+
+			getDataStub.should.have.been.calledOnceWithExactly(version);
+		});
 	});
 });

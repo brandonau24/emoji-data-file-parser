@@ -2,10 +2,10 @@ import EmojiDataApi from 'EmojiDataApi';
 
 export default class EmojiDataParser {
 
-	getFilteredData() {
+	getFilteredData(version) {
 		const emojiDataApi = new EmojiDataApi();
 
-		return emojiDataApi.getData().then(data => {
+		return emojiDataApi.getData(version).then(data => {
 			console.log('Filtering data...');
 			
 			let filteredData = {};
