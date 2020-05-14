@@ -15,5 +15,9 @@ module.exports = {
 	},
 	target: 'node',
 	devtool: 'inline-cheap-module-source-map',
-	externals: [nodeExternals()]
+	externals: [nodeExternals()],
+	stats: {
+		// Ignore warnings due to yarg's dynamic module loading
+		warningsFilter: [/node_modules\/yargs/]
+	}
 };

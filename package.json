@@ -44,6 +44,7 @@
   },
   "homepage": "https://github.com/brandonau24/emoji-data-file-parser#readme",
   "dependencies": {
-    "axios": "^0.19.2"
+    "axios": "^0.19.2",
+    "yargs": "^15.3.1"
   }
 }
