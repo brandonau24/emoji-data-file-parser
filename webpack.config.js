@@ -1,5 +1,6 @@
 const path = require('path');
 const RemovePlugin = require('remove-files-webpack-plugin');
+const nodeExternals = require('webpack-node-externals');
 
 const srcPath = path.resolve(__dirname, 'src');
 const outputBundleName = 'emoji-data-file-parser.js';
@@ -44,5 +45,6 @@ module.exports = {
 	stats: {
 		// Ignore warnings due to yarg's dynamic module loading
 		warningsFilter: [/node_modules\/yargs/]
-	}
+	},
+	externals: [nodeExternals()]
 };
