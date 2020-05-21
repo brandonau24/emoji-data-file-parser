@@ -2,7 +2,10 @@
   "name": "emoji-data-file-parser",
   "version": "1.0.0",
   "description": "Parses emoji-test.txt from Unicode.org into JSON",
-  "main": "index.js",
+  "main": "./emoji-data-file-parser.js",
+  "bin": {
+    "emoji-data-file-parser": "./emoji-data-file-parser.js"
+  },
   "scripts": {
     "build:dev": "webpack --config webpack.config.js --mode development",
     "build:prod": "webpack --config webpack.config.js --mode production",
