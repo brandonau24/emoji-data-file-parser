@@ -1,6 +1,5 @@
 const path = require('path');
 const webpack = require('webpack');
-const RemovePlugin = require('remove-files-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
 
 const srcPath = path.resolve(__dirname, 'src');
@@ -37,11 +36,6 @@ module.exports = {
 	},
 	target: 'async-node',
 	plugins: [
-		new RemovePlugin({
-			before: {
-				include: [outputBundleName]
-			}
-		}),
 		new webpack.BannerPlugin({
 			banner: '#!/usr/bin/env node',
 			raw: true

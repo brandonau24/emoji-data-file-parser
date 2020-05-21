@@ -31,7 +31,6 @@
     "eslint-plugin-standard": "^4.0.1",
     "mocha": "^7.1.1",
     "mochapack": "^2.0.0",
-    "remove-files-webpack-plugin": "^1.4.1",
     "sinon": "^9.0.2",
     "sinon-chai": "^3.5.0",
     "webpack": "^4.43.0",
