@@ -4,7 +4,9 @@
 
 
 ## How to use
-To be filled out
+1. Clone the repository with `git clone git@github.com:brandonau24/emoji-data-file-parser.git`
+2. Do a `npm run build:prod` or `yarn build:prod`
+3. Run emoji-data-file-parser.js with `--help` to get a description of options.
 
 ## Description
 This utility retrieves https://unicode.org/Public/emoji/12.0/emoji-test.txt and parses the file into JSON.
