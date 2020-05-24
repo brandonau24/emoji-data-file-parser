@@ -1,0 +1,29 @@
+name: emoji-data-file-parser tests
+
+on:
+  push:
+    branches:
+    - master
+  schedule:
+    - cron: "0 4 * * 6"
+
+jobs:
+  test:
+      runs-on: ${{ matrix.os }}
+
+      strategy:
+        matrix:
+          os: [ubuntu-latest, windows-latest, macos-latest]
+          node-version: [10.x, 12.x, 14.x]
+
+      steps:
+      - uses: actions/checkout@v2
+      - name: Run JavaScript Unit Tests on Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm ci
+      - run: npm test
+        env:
+          CI: true
+          

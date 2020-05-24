@@ -1,6 +1,7 @@
 # Emoji Data File Parsing Utility
 
-![](https://github.com/brandonau24/emoji-data-file-parser/workflows/emoji-data-file-parser%20CI/badge.svg)
+![](https://github.com/brandonau24/emoji-data-file-parser/workflows/emoji-data-file-parser%20build/badge.svg)
+![](https://github.com/brandonau24/emoji-data-file-parser/workflows/emoji-data-file-parser%20tests/badge.svg)
 
 
 ## How to use
