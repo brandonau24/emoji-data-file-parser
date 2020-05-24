@@ -1,8 +1,0 @@
-src/
-test/
-.github/
-
-.eslintrc.json
-.gitignore
-tests.js
-webpack.test.js
