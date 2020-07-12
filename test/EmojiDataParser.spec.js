@@ -66,9 +66,9 @@ describe('EmojiDataParser', () => {
 
 			return parser.getFilteredData(version).should.eventually.deep.equal({
 				version,
-				'group1': {},
-				'group2': {},
-				'group3': {}
+				group1: {},
+				group2: {},
+				group3: {}
 			});
 		});
 
