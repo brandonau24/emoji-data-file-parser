@@ -22,6 +22,14 @@ describe('EmojiDataParser', () => {
 	});
 
 	describe('#filterData', () => {
+		it('passes version number to data retriever', () => {
+			const getDataStub = sinon.stub(EmojiDataRetriever.prototype, 'getData').resolves('');
+
+			parser.getFilteredData(version);
+
+			getDataStub.should.have.been.calledOnceWithExactly(version);
+		});
+
 		it('sets Unicode version property', () => {
 			sinon.stub(EmojiDataRetriever.prototype, 'getData').resolves('data');
 
