@@ -16,6 +16,7 @@ export default class EmojiDataParser {
 			};
 
 			let groupName;
+			let subgroupName;
 
 			for (let line of lines) {
 				line = line.trim();
@@ -23,6 +24,11 @@ export default class EmojiDataParser {
 					const startOfGroupNameIndex = line.indexOf(':') + 2;
 					groupName = line.substring(startOfGroupNameIndex);
 					filteredData[groupName] = {};
+				}
+				else if (line.includes('# subgroup')) {
+					const startOfSubgroupIndex = line.indexOf(':') + 2;
+					subgroupName = line.substring(startOfSubgroupIndex);
+					filteredData[groupName][subgroupName] = [];
 				}
 			}
 

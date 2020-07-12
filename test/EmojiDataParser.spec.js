@@ -71,5 +71,46 @@ describe('EmojiDataParser', () => {
 				'group3': {}
 			});
 		});
+
+		it('creates subgroups within groups', () => {
+			const data =
+				`
+				# group: group1
+				# subgroup: subgroup1
+				# subgroup: subgroup2
+				# subgroup: subgroup3
+
+				# group: group2
+				# subgroup: subgroup1
+				# subgroup: subgroup2
+				# subgroup: subgroup3
+
+				# group: group3
+				# subgroup: subgroup1
+				# subgroup: subgroup2
+				# subgroup: subgroup3
+			`;
+
+			sinon.stub(EmojiDataRetriever.prototype, 'getData').resolves(data);
+
+			return parser.getFilteredData(version).should.eventually.deep.equal({
+				version,
+				group1: {
+					subgroup1: [],
+					subgroup2: [],
+					subgroup3: []
+				},
+				group2: {
+					subgroup1: [],
+					subgroup2: [],
+					subgroup3: []
+				},
+				group3: {
+					subgroup1: [],
+					subgroup2: [],
+					subgroup3: []
+				}
+			});
+		});
 	});
 });
