@@ -22,6 +22,14 @@ describe('EmojiDataParser', () => {
 	});
 
 	describe('#filterData', () => {
+		it('sets Unicode version property', () => {
+			sinon.stub(EmojiDataRetriever.prototype, 'getData').resolves('data');
+
+			return parser.getFilteredData(version).should.eventually.deep.equal({
+				version
+			});
+		});
+		
 		it('ignores comments', () => {
 			const data = '# This is a comment';
 
