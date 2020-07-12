@@ -39,7 +39,7 @@ export default class EmojiDataParser {
 					const endCodepointSectionIndex = line.indexOf(';');
 					const codepoints = line.substring(0, endCodepointSectionIndex).trim();
 					const emojiName = this._getEmojiName(codepoints, line);
-	
+
 					const emoji = {
 						codepoints,
 						name: emojiName
