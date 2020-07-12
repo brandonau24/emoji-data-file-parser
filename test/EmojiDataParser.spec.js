@@ -22,6 +22,22 @@ describe('EmojiDataParser', () => {
 	});
 
 	describe('#filterData', () => {
+		it('passes version number to data retriever', () => {
+			const getDataStub = sinon.stub(EmojiDataRetriever.prototype, 'getData').resolves('');
+
+			parser.getFilteredData(version);
+
+			getDataStub.should.have.been.calledOnceWithExactly(version);
+		});
+
+		it('sets Unicode version property', () => {
+			sinon.stub(EmojiDataRetriever.prototype, 'getData').resolves('\n');
+
+			return parser.getFilteredData(version).should.eventually.deep.equal({
+				version
+			});
+		});
+		
 		it('ignores comments', () => {
 			const data = '# This is a comment';
 
@@ -32,169 +48,142 @@ describe('EmojiDataParser', () => {
 			});
 		});
 
-		it('picks only fully-qualified emoji codepoints', () => {
-			const data =
-			`
-				# This is a comment
-				# group: group
-				# subgroup: subgroup
-				1F600                                      ; fully-qualified     # 😀 grinning face
-				263A                                       ; unqualified         # ☺ smiling face
-				1F44B                                      ; fully-qualified     # 👋 waving hand
-				1F44B 1F3FB                                ; fully-qualified     # 👋🏻 waving hand: light skin tone
-				1F471 200D 2642                            ; minimally-qualified # 👱‍♂ man: blond hair
-			`;
+		it('returns null when API returns no data', () => {
+			sinon.stub(EmojiDataRetriever.prototype, 'getData').resolves(null);
 
-			sinon.stub(EmojiDataRetriever.prototype, 'getData').resolves(data);
-
-			return parser.getFilteredData(version).should.eventually.deep.equal({
-				version,
-				'group': [
-					{
-						codepoints: '1F600',
-						name: 'grinning face subgroup'
-					},
-					{
-						codepoints: '1F44B',
-						name: 'waving hand subgroup'
-					},
-					{
-						codepoints: '1F44B 1F3FB',
-						name: 'waving hand: light skin tone subgroup'
-					}
-				]
-			});
-		});
-
-		it('sets emoji name without emoji character and comment character', () => {
-			const data =
-			`
-				# group: group
-				# subgroup: subgroup
-				1F600                                      ; fully-qualified     # 😀 grinning face
-				1F44B                                      ; fully-qualified     # 👋 waving hand
-				1F44B 1F3FB                                ; fully-qualified     # 👋🏻 waving hand: light skin tone
-			`;
-
-			sinon.stub(EmojiDataRetriever.prototype, 'getData').resolves(data);
-
-			return parser.getFilteredData(version).should.eventually.deep.equal({
-				version,
-				'group': [
-					{
-						codepoints: '1F600',
-						name: 'grinning face subgroup'
-					},
-					{
-						codepoints: '1F44B',
-						name: 'waving hand subgroup'
-					},
-					{
-						codepoints: '1F44B 1F3FB',
-						name: 'waving hand: light skin tone subgroup'
-					}
-				]
-			});
-		});
-
-		it('adds sub-group to emoji name', () => {
-			const data =
-			`
-				# group: group
-				# subgroup: face-smiling
-				1F600                                      ; fully-qualified     # 😀 grinning face
-				# subgroup: face-affection
-				1F970                                      ; fully-qualified     # 🥰 smiling face with hearts
-				# subgroup: face-costume
-				1F4A9                                      ; fully-qualified     # 💩 pile of poo
-			`;
-
-			sinon.stub(EmojiDataRetriever.prototype, 'getData').resolves(data);
-
-			return parser.getFilteredData(version).should.eventually.deep.equal({
-				version,
-				'group': [
-					{
-						codepoints: '1F600',
-						name: 'grinning face face-smiling'
-					},
-					{
-						codepoints: '1F970',
-						name: 'smiling face with hearts face-affection'
-					},
-					{
-						codepoints: '1F4A9',
-						name: 'pile of poo face-costume'
-					}
-				]
-			});
+			return parser.getFilteredData(version).should.eventually.be.null;
 		});
 
 		it('creates emoji groups', () => {
 			const data =
-				`
-				# group: Smiley & Emotions
-				# subgroup: face-smiling
-				1F600                                      ; fully-qualified     # 😀 grinning face
-				1F970                                      ; fully-qualified     # 🥰 smiling face with hearts
-				1F4A9                                      ; fully-qualified     # 💩 pile of poo
-				
-				# group: Animals & Nature
-				# subgroup: animal-mammal
-				1F435                                      ; fully-qualified     # 🐵 monkey face
-				1F412                                      ; fully-qualified     # 🐒 monkey
+			`
+				# group: group1
+				# group: group2
+				# group: group3
 			`;
 
 			sinon.stub(EmojiDataRetriever.prototype, 'getData').resolves(data);
 
 			return parser.getFilteredData(version).should.eventually.deep.equal({
 				version,
-				'Smiley & Emotions': [
-					{
-						codepoints: '1F600',
-						name: 'grinning face face-smiling'
-					},
-					{
-						codepoints: '1F970',
-						name: 'smiling face with hearts face-smiling'
-					},
-					{
-						codepoints: '1F4A9',
-						name: 'pile of poo face-smiling'
-					}
-				],
-				'Animals & Nature': [
-					{
-						codepoints: '1F435',
-						name: 'monkey face animal-mammal'
-					},
-					{
-						codepoints: '1F412',
-						name: 'monkey animal-mammal'
-					}
-				]
+				group1: {},
+				group2: {},
+				group3: {}
 			});
 		});
 
-		it('passes version number to API', () => {
-			const getDataStub = sinon.stub(EmojiDataRetriever.prototype, 'getData').resolves('');
+		it('creates subgroups within groups', () => {
+			const data =
+				`
+				# group: group1
+				# subgroup: subgroup1
+				# subgroup: subgroup2
+				# subgroup: subgroup3
 
-			parser.getFilteredData(version);
+				# group: group2
+				# subgroup: subgroup1
+				# subgroup: subgroup2
+				# subgroup: subgroup3
 
-			getDataStub.should.have.been.calledOnceWithExactly(version);
-		});
+				# group: group3
+				# subgroup: subgroup1
+				# subgroup: subgroup2
+				# subgroup: subgroup3
+			`;
 
-		it('receives nullfrom API and returns null', () => {
-			sinon.stub(EmojiDataRetriever.prototype, 'getData').resolves(null);
-
-			return parser.getFilteredData().should.eventually.be.null;
-		});
-
-		it('sets Unicode version property', () => {
-			sinon.stub(EmojiDataRetriever.prototype, 'getData').resolves('data');
+			sinon.stub(EmojiDataRetriever.prototype, 'getData').resolves(data);
 
 			return parser.getFilteredData(version).should.eventually.deep.equal({
-				version
+				version,
+				group1: {
+					subgroup1: [],
+					subgroup2: [],
+					subgroup3: []
+				},
+				group2: {
+					subgroup1: [],
+					subgroup2: [],
+					subgroup3: []
+				},
+				group3: {
+					subgroup1: [],
+					subgroup2: [],
+					subgroup3: []
+				}
+			});
+		});
+
+		it('fills subgroups with emoji data', () => {
+			const data =
+			`
+				# This is a comment	
+				# group: Smileys & Emotion	
+				# subgroup: face-smiling	
+				1F600                                      ; fully-qualified     # 😀 grinning face	
+				1F603                                      ; fully-qualified     # 😃 grinning face with big eyes
+
+				# subgroup: face-affection
+				1F970                                      ; fully-qualified     # 🥰 smiling face with hearts
+
+				# group: Animals & Nature
+				# subgroup: animal-mammal
+				1F435                                      ; fully-qualified     # 🐵 monkey face
+			`;
+
+			sinon.stub(EmojiDataRetriever.prototype, 'getData').resolves(data);
+			
+			return parser.getFilteredData(version).should.eventually.deep.equal({
+				version,
+				'Smileys & Emotion': {
+					'face-smiling': [
+						{
+							codepoints: '1F600',
+							name: 'grinning face'
+						},
+						{
+							codepoints: '1F603',
+							name: 'grinning face with big eyes'
+						}
+					],
+					'face-affection': [
+						{
+							codepoints: '1F970',
+							name: 'smiling face with hearts'
+						}
+					]
+				},
+				'Animals & Nature': {
+					'animal-mammal': [
+						{
+							codepoints: '1F435',
+							name: 'monkey face'
+						}
+					],
+				}
+			});
+		});
+
+		it('picks only fully-qualified emojis', () => {
+			const data =
+			`
+				# group: Smileys & Emotion
+				# subgroup: face-affection
+				1F617                                      ; fully-qualified     # 😗 kissing face
+				263A FE0F                                  ; unqualified              # ☺️ smiling face
+			`;
+
+			sinon.stub(EmojiDataRetriever.prototype, 'getData').resolves(data);
+
+			return parser.getFilteredData(version).should.eventually.deep.equal({
+				version,
+				'Smileys & Emotion': {
+					'face-affection': [
+						{
+							codepoints: '1F617',
+							name: 'kissing face'
+						}
+					]
+				}
 			});
 		});
 	});

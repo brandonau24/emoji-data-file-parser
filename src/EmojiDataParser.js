@@ -1,7 +1,6 @@
 import EmojiDataRetriever from 'EmojiDataRetriever';
 
 export default class EmojiDataParser {
-
 	getFilteredData(version) {
 		const emojiDataRetriever = new EmojiDataRetriever();
 
@@ -10,42 +9,43 @@ export default class EmojiDataParser {
 				return null;
 			}
 
-			console.log('Filtering data...');
-			
-			let filteredData = {
+			const lines = data.split('\n');
+
+			const filteredData = {
 				version
 			};
+
 			let groupName;
-			let currentGroup;
-			let subgroup;
-			const lines = data.split('\n');
+			let subgroupName;
 
 			for (let line of lines) {
 				line = line.trim();
 
-				if (line.includes('# group:')) {
+				if (line.includes('# group')) {
 					const startOfGroupNameIndex = line.indexOf(':') + 2;
 					groupName = line.substring(startOfGroupNameIndex);
-					filteredData[groupName] = [];
-					currentGroup = filteredData[groupName];
+					filteredData[groupName] = {};
 				}
-				else if (line.includes('# subgroup:')) {
+				else if (line.includes('# subgroup')) {
 					const startOfSubgroupIndex = line.indexOf(':') + 2;
-					subgroup = line.substring(startOfSubgroupIndex);
+					subgroupName = line.substring(startOfSubgroupIndex);
+					filteredData[groupName][subgroupName] = [];
 				}
-				else if (line.charAt(0) === '#') {
+				else if(line.charAt(0) === '#'){
 					continue;
 				}
-				
+
 				if (line.includes('fully-qualified')) {
 					const endCodepointSectionIndex = line.indexOf(';');
 					const codepoints = line.substring(0, endCodepointSectionIndex).trim();
 					const emojiName = this._getEmojiName(codepoints, line);
 
-					currentGroup.push({
+					const emoji = {
 						codepoints,
-						name: `${emojiName} ${subgroup}`
-					});
+						name: emojiName
+					};
+	
+					filteredData[groupName][subgroupName].push(emoji);
 				}
 			}
 

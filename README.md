@@ -15,23 +15,51 @@ This utility retrieves https://unicode.org/Public/emoji/12.0/emoji-test.txt and 
 ### Example output:
 ```
 {
-	"Smileys & Emotion": [
-    {
-      "codepoints": "1F600",
-      "name": "grinning face face-smiling"
-    },
-    {
-      "codepoints": "1F603",
-      "name": "grinning face with big eyes face-smiling"
-    },
-    {
-      "codepoints": "1F604",
-      "name": "grinning face with smiling eyes face-smiling"
-    },
-    {
-      "codepoints": "1F601",
-      "name": "beaming face with smiling eyes face-smiling"
-    },
-	...
+  "version": "12.0",
+  "Smileys & Emotion": {
+    "face-smiling": [
+      {
+        "codepoints": "1F600",
+        "name": "grinning face"
+      },
+      {
+        "codepoints": "1F603",
+        "name": "grinning face with big eyes"
+      },
+      "face-affection": [
+      {
+        "codepoints": "1F970",
+        "name": "smiling face with hearts"
+      },
+      {
+        "codepoints": "1F60D",
+        "name": "smiling face with heart-eyes"
+      },
+      {
+        "codepoints": "1F929",
+        "name": "star-struck"
+      },
+	  ...
+  },
+  "People & Body": {
+    "hand-fingers-open": [
+      {
+        "codepoints": "1F44B",
+        "name": "waving hand"
+      },
+      {
+        "codepoints": "1F44B 1F3FB",
+        "name": "waving hand: light skin tone"
+      },
+      {
+        "codepoints": "1F44B 1F3FC",
+        "name": "waving hand: medium-light skin tone"
+      },
+      {
+        "codepoints": "1F44B 1F3FD",
+        "name": "waving hand: medium skin tone"
+      },
+  },
+  ...
 }
 ```
