@@ -20,6 +20,7 @@ export default class EmojiDataParser {
 
 			for (let line of lines) {
 				line = line.trim();
+
 				if (line.includes('# group')) {
 					const startOfGroupNameIndex = line.indexOf(':') + 2;
 					groupName = line.substring(startOfGroupNameIndex);
@@ -29,6 +30,21 @@ export default class EmojiDataParser {
 					const startOfSubgroupIndex = line.indexOf(':') + 2;
 					subgroupName = line.substring(startOfSubgroupIndex);
 					filteredData[groupName][subgroupName] = [];
+				}
+				else if(line.charAt(0) === '#'){
+					continue;
+				}
+				else if(line) {
+					const endCodepointSectionIndex = line.indexOf(';');
+					const codepoints = line.substring(0, endCodepointSectionIndex).trim();
+					const emojiName = this._getEmojiName(codepoints, line);
+	
+					const emoji = {
+						codepoints,
+						name: emojiName
+					};
+	
+					filteredData[groupName][subgroupName].push(emoji);
 				}
 			}
 

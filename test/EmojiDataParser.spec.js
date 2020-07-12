@@ -31,7 +31,7 @@ describe('EmojiDataParser', () => {
 		});
 
 		it('sets Unicode version property', () => {
-			sinon.stub(EmojiDataRetriever.prototype, 'getData').resolves('data');
+			sinon.stub(EmojiDataRetriever.prototype, 'getData').resolves('\n');
 
 			return parser.getFilteredData(version).should.eventually.deep.equal({
 				version
@@ -109,6 +109,56 @@ describe('EmojiDataParser', () => {
 					subgroup1: [],
 					subgroup2: [],
 					subgroup3: []
+				}
+			});
+		});
+
+		it('fills subgroups with emoji data', () => {
+			const data =
+			`
+				# This is a comment	
+				# group: Smileys & Emotion	
+				# subgroup: face-smiling	
+				1F600                                      ; fully-qualified     # 😀 grinning face	
+				1F603                                      ; fully-qualified     # 😃 grinning face with big eyes
+
+				# subgroup: face-affection
+				1F970                                      ; fully-qualified     # 🥰 smiling face with hearts
+
+				# group: Animals & Nature
+				# subgroup: animal-mammal
+				1F435                                      ; fully-qualified     # 🐵 monkey face
+			`;
+
+			sinon.stub(EmojiDataRetriever.prototype, 'getData').resolves(data);
+			console.log('test');
+			return parser.getFilteredData(version).should.eventually.deep.equal({
+				version,
+				'Smileys & Emotion': {
+					'face-smiling': [
+						{
+							codepoints: '1F600',
+							name: 'grinning face'
+						},
+						{
+							codepoints: '1F603',
+							name: 'grinning face with big eyes'
+						}
+					],
+					'face-affection': [
+						{
+							codepoints: '1F970',
+							name: 'smiling face with hearts'
+						}
+					]
+				},
+				'Animals & Nature': {
+					'animal-mammal': [
+						{
+							codepoints: '1F435',
+							name: 'monkey face'
+						}
+					],
 				}
 			});
 		});
