@@ -131,7 +131,7 @@ describe('EmojiDataParser', () => {
 			`;
 
 			sinon.stub(EmojiDataRetriever.prototype, 'getData').resolves(data);
-			console.log('test');
+			
 			return parser.getFilteredData(version).should.eventually.deep.equal({
 				version,
 				'Smileys & Emotion': {
