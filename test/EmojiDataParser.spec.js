@@ -162,5 +162,29 @@ describe('EmojiDataParser', () => {
 				}
 			});
 		});
+
+		it('picks only fully-qualified emojis', () => {
+			const data =
+			`
+				# group: Smileys & Emotion
+				# subgroup: face-affection
+				1F617                                      ; fully-qualified     # 😗 kissing face
+				263A FE0F                                  ; unqualified              # ☺️ smiling face
+			`;
+
+			sinon.stub(EmojiDataRetriever.prototype, 'getData').resolves(data);
+
+			return parser.getFilteredData(version).should.eventually.deep.equal({
+				version,
+				'Smileys & Emotion': {
+					'face-affection': [
+						{
+							codepoints: '1F617',
+							name: 'kissing face'
+						}
+					]
+				}
+			});
+		});
 	});
 });

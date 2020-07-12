@@ -34,7 +34,8 @@ export default class EmojiDataParser {
 				else if(line.charAt(0) === '#'){
 					continue;
 				}
-				else if(line) {
+
+				if (line.includes('fully-qualified')) {
 					const endCodepointSectionIndex = line.indexOf(';');
 					const codepoints = line.substring(0, endCodepointSectionIndex).trim();
 					const emojiName = this._getEmojiName(codepoints, line);
