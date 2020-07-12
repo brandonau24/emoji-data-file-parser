@@ -53,5 +53,23 @@ describe('EmojiDataParser', () => {
 
 			return parser.getFilteredData(version).should.eventually.be.null;
 		});
+
+		it('creates emoji groups', () => {
+			const data =
+			`
+				# group: group1
+				# group: group2
+				# group: group3
+			`;
+
+			sinon.stub(EmojiDataRetriever.prototype, 'getData').resolves(data);
+
+			return parser.getFilteredData(version).should.eventually.deep.equal({
+				version,
+				'group1': {},
+				'group2': {},
+				'group3': {}
+			});
+		});
 	});
 });

@@ -9,9 +9,24 @@ export default class EmojiDataParser {
 				return null;
 			}
 
-			return {
+			const lines = data.split('\n');
+
+			const filteredData = {
 				version
 			};
+
+			let groupName;
+
+			for (let line of lines) {
+				line = line.trim();
+				if (line.includes('# group')) {
+					const startOfGroupNameIndex = line.indexOf(':') + 2;
+					groupName = line.substring(startOfGroupNameIndex);
+					filteredData[groupName] = {};
+				}
+			}
+
+			return filteredData;
 		});
 	}
 
