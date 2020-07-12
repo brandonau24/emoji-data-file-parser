@@ -3,7 +3,7 @@ name: emoji-data-file-parser branch build
 on:
   push:
     branches-ignore:
-      - 'master'
+      - master
 
 jobs:
   test:
