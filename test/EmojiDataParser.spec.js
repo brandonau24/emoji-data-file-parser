@@ -31,5 +31,11 @@ describe('EmojiDataParser', () => {
 				version
 			});
 		});
+
+		it('returns null when API returns no data', () => {
+			sinon.stub(EmojiDataRetriever.prototype, 'getData').resolves(null);
+
+			return parser.getFilteredData(version).should.eventually.be.null;
+		});
 	});
 });

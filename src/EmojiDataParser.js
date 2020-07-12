@@ -5,6 +5,10 @@ export default class EmojiDataParser {
 		const emojiDataRetriever = new EmojiDataRetriever();
 
 		return emojiDataRetriever.getData(version).then(data => {
+			if (!data) {
+				return null;
+			}
+
 			return {
 				version
 			};
