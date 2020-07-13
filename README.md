@@ -26,6 +26,8 @@ This utility retrieves https://unicode.org/Public/emoji/12.0/emoji-test.txt and 
         "codepoints": "1F603",
         "name": "grinning face with big eyes"
       },
+      ...
+    ],
       "face-affection": [
       {
         "codepoints": "1F970",
@@ -39,6 +41,8 @@ This utility retrieves https://unicode.org/Public/emoji/12.0/emoji-test.txt and 
         "codepoints": "1F929",
         "name": "star-struck"
       },
+      ...
+    ],
 	  ...
   },
   "People & Body": {
@@ -59,6 +63,8 @@ This utility retrieves https://unicode.org/Public/emoji/12.0/emoji-test.txt and 
         "codepoints": "1F44B 1F3FD",
         "name": "waving hand: medium skin tone"
       },
+      ...
+    ]
   },
   ...
 }
