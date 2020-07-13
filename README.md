@@ -26,9 +26,9 @@ This utility retrieves https://unicode.org/Public/emoji/12.0/emoji-test.txt and 
         "codepoints": "1F603",
         "name": "grinning face with big eyes"
       },
-      ...
+      // rest of emojis in face-smiling subgroup
     ],
-      "face-affection": [
+    "face-affection": [
       {
         "codepoints": "1F970",
         "name": "smiling face with hearts"
@@ -41,9 +41,9 @@ This utility retrieves https://unicode.org/Public/emoji/12.0/emoji-test.txt and 
         "codepoints": "1F929",
         "name": "star-struck"
       },
-      ...
+      // rest of emojis in face-affection subgroup
     ],
-	  ...
+	  // rest of emojis in Smileys & Emotion group
   },
   "People & Body": {
     "hand-fingers-open": [
@@ -63,9 +63,10 @@ This utility retrieves https://unicode.org/Public/emoji/12.0/emoji-test.txt and 
         "codepoints": "1F44B 1F3FD",
         "name": "waving hand: medium skin tone"
       },
-      ...
-    ]
+      // rest of emojis in hand-fingers-open subgroup
+    ],
+    // rest of emojis in People & Body group
   },
-  ...
+  // rest of emoji groups and their subgroups
 }
 ```
