@@ -34,8 +34,7 @@ export default class EmojiDataParser {
 				else if(line.charAt(0) === '#'){
 					continue;
 				}
-
-				if (line.includes('fully-qualified')) {
+				else if (line.includes('fully-qualified')) {
 					const endCodepointSectionIndex = line.indexOf(';');
 					const codepoints = line.substring(0, endCodepointSectionIndex).trim();
 					const emojiName = this._getEmojiName(codepoints, line);
@@ -54,7 +53,8 @@ export default class EmojiDataParser {
 	}
 
 	_getEmojiName(codepoints, line) {
-		const prefixedCodepoints = this._prefixCodepoints(codepoints);
+		//String.fromCodePoint won't accept parameters that do not have the 0x prefix
+		const prefixedCodepoints = codepoints.split(' ').map(codepoint => `0x${codepoint}`);
 		
 		//An emoji is represented by 16 bits.
 		//However, when it's encoded, it is made up of 2 or more sequences 😀 (1F600) = \uD83D\uDE00
@@ -64,12 +64,5 @@ export default class EmojiDataParser {
 		
 		//Add 3 due to space between # and emoji, and the emoji and its name
 		return line.substring(startNameSectionIndex + unicodeStrLength + 3).trim();
-	}
-
-	_prefixCodepoints(codepoints) {
-		//String.fromCodePoint won't accept parameters that do not have the 0x prefix
-		return codepoints.split(' ').map(codepoint => {
-			return `0x${codepoint}`;
-		});
 	}
 }
