@@ -186,5 +186,38 @@ describe('EmojiDataParser', () => {
 				}
 			});
 		});
+
+		it('does not include emoji unicode version in the name', () => {
+			const data =
+			`
+				# group: Smileys & Emotion
+
+				# subgroup: face-smiling
+				1F600                                      ; fully-qualified     # 😀 E1.0 grinning face
+				# subgroup: face-affection
+				1F970                                      ; fully-qualified     # 🥰 E11.0 smiling face with hearts
+			`;
+			const version = '13.0';
+
+			sinon.stub(EmojiDataRetriever.prototype, 'getData').resolves(data);
+
+			return parser.getFilteredData(version).should.eventually.deep.equal({
+				version,
+				'Smileys & Emotion': {
+					'face-smiling': [
+						{
+							codepoints: '1F600',
+							name: 'grinning face'
+						}
+					],
+					'face-affection': [
+						{
+							codepoints: '1F970',
+							name: 'smiling face with hearts'
+						}
+					]
+				}
+			});
+		});
 	});
 });

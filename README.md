@@ -10,12 +10,12 @@
 3. Run emoji-data-file-parser.js with `--help` to get a description of options.
 
 ## Description
-This utility retrieves https://unicode.org/Public/emoji/12.0/emoji-test.txt and parses the file into JSON.
+This utility retrieves https://unicode.org/Public/emoji/13.0/emoji-test.txt and parses the file into JSON.
 
 ### Example output:
 ```
 {
-  "version": "12.0",
+  "version": "13.0",
   "Smileys & Emotion": {
     "face-smiling": [
       {

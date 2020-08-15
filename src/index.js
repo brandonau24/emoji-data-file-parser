@@ -8,7 +8,7 @@ const args = yargs
 			type: 'string',
 			demandOption: false,
 			description: 'Unicode Version for Emoji Standard',
-			default: '12.0'
+			default: '13.0'
 		},
 		'output-file': {
 			alias: 'o',
