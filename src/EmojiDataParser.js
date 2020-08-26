@@ -21,7 +21,12 @@ export default class EmojiDataParser {
 			for (let line of lines) {
 				line = line.trim();
 
-				if (line.includes('# group')) {
+				if ((line.includes('# group: Component') || 
+						line.includes('skin-tone') ||
+						line.includes('hair-style')) && removeModifiers) {
+					continue;
+				}
+				else if (line.includes('# group')) {
 					const startOfGroupNameIndex = line.indexOf(':') + 2;
 					groupName = line.substring(startOfGroupNameIndex);
 					filteredData[groupName] = {};

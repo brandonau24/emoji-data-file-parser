@@ -257,5 +257,61 @@ describe('EmojiDataParser', () => {
 				}
 			});
 		});
+
+		it('ignores components when remove modifiers flag is true', () => {
+			const data =
+			`
+			# group: Component
+
+			# subgroup: skin-tone
+			1F3FB                                      ; component           # 🏻 E1.0 light skin tone
+			1F3FC                                      ; component           # 🏼 E1.0 medium-light skin tone
+			1F3FD                                      ; component           # 🏽 E1.0 medium skin tone
+			1F3FE                                      ; component           # 🏾 E1.0 medium-dark skin tone
+			1F3FF                                      ; component           # 🏿 E1.0 dark skin tone
+
+			# subgroup: hair-style
+			1F9B0                                      ; component           # 🦰 E11.0 red hair
+			1F9B1                                      ; component           # 🦱 E11.0 curly hair
+			1F9B3                                      ; component           # 🦳 E11.0 white hair
+			1F9B2                                      ; component           # 🦲 E11.0 bald
+			`;
+
+			sinon.stub(EmojiDataRetriever.prototype, 'getData').resolves(data);
+
+			return parser.getFilteredData(version, true).should.eventually.deep.equal({
+				version
+			});
+		});
+		
+		it('adds components when remove modifiers flag is false', () => {
+			const data =
+			`
+			# group: Component
+
+			# subgroup: skin-tone
+			1F3FB                                      ; component           # 🏻 E1.0 light skin tone
+			1F3FC                                      ; component           # 🏼 E1.0 medium-light skin tone
+			1F3FD                                      ; component           # 🏽 E1.0 medium skin tone
+			1F3FE                                      ; component           # 🏾 E1.0 medium-dark skin tone
+			1F3FF                                      ; component           # 🏿 E1.0 dark skin tone
+
+			# subgroup: hair-style
+			1F9B0                                      ; component           # 🦰 E11.0 red hair
+			1F9B1                                      ; component           # 🦱 E11.0 curly hair
+			1F9B3                                      ; component           # 🦳 E11.0 white hair
+			1F9B2                                      ; component           # 🦲 E11.0 bald
+			`;
+
+			sinon.stub(EmojiDataRetriever.prototype, 'getData').resolves(data);
+
+			return parser.getFilteredData(version, false).should.eventually.deep.equal({
+				version,
+				Component: {
+					'hair-style': [],
+					'skin-tone': []
+				}
+			});
+		});
 	});
 });
