@@ -112,9 +112,17 @@ describe('EmojiDataFileCreator', () => {
 		it('passes version number to data parser', () => {
 			const version = '13.0';
 
-			emojiDataFileCreator.createFile('emoji-data.json', version);
+			emojiDataFileCreator.createFile('emoji-data.json', version, false);
 
-			getFilteredDataStub.should.have.been.calledOnceWithExactly(version);
+			getFilteredDataStub.should.have.been.calledOnceWithExactly(version, false);
+		});
+		
+		it('passes removeModifier flag to data parser', () => {
+			const removeModifiers = true;
+
+			emojiDataFileCreator.createFile('emoji-data.json', '13.0', removeModifiers);
+
+			getFilteredDataStub.should.have.been.calledOnceWithExactly('13.0', removeModifiers);
 		});
 	});
 });

@@ -16,6 +16,12 @@ const args = yargs
 			demandOption: false,
 			description: 'Name of the output JSON file',
 			default: 'emoji-data.json'
+		},
+		'remove-modifiers': {
+			type: 'boolean',
+			demandOption: false,
+			description: 'Removes modifiers from data (e.g. skin tones)',
+			default: false
 		}
 	})
 	.version(false)
@@ -25,6 +31,6 @@ const args = yargs
 	.help()
 	.argv;
 
-new EmojiDataFileCreator().createFile(args.outputFile, args.unicodeVersion).then(() => {
+new EmojiDataFileCreator().createFile(args.outputFile, args.unicodeVersion, args.removeModifiers).then(() => {
 	console.log('Done!');
 });
