@@ -1,7 +1,7 @@
 import EmojiDataRetriever from 'EmojiDataRetriever';
 
 export default class EmojiDataParser {
-	getFilteredData(version) {
+	getFilteredData(version, removeModifiers) {
 		const emojiDataRetriever = new EmojiDataRetriever();
 
 		return emojiDataRetriever.getData(version).then(data => {
@@ -32,6 +32,9 @@ export default class EmojiDataParser {
 					filteredData[groupName][subgroupName] = [];
 				}
 				else if(line.charAt(0) === '#'){
+					continue;
+				}
+				else if (line.includes('skin tone') && removeModifiers) {
 					continue;
 				}
 				else if (line.includes('fully-qualified')) {

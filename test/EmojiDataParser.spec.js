@@ -219,5 +219,43 @@ describe('EmojiDataParser', () => {
 				}
 			});
 		});
+
+		it('ignores modifiers when remove modifiers flag is true', () => {
+			const data =
+			`
+			# group: People & Body
+
+			# subgroup: hand-fingers-open
+			1F44B                                      ; fully-qualified     # 👋 E0.6 waving hand
+			1F44B 1F3FC                                ; fully-qualified     # 👋🏼 E1.0 waving hand: medium-light skin tone
+			1F44B 1F3FD                                ; fully-qualified     # 👋🏽 E1.0 waving hand: medium skin tone
+			1F44B 1F3FF                                ; fully-qualified     # 👋🏿 E1.0 waving hand: dark skin tone
+
+			# subgroup: hand-fingers-partial
+			1F44C                                      ; fully-qualified     # 👌 E0.6 OK hand
+			1F44C 1F3FB                                ; fully-qualified     # 👌🏻 E1.0 OK hand: light skin tone
+			1F44C 1F3FC                                ; fully-qualified     # 👌🏼 E1.0 OK hand: medium-light skin tone
+			`;
+
+			sinon.stub(EmojiDataRetriever.prototype, 'getData').resolves(data);
+
+			return parser.getFilteredData(version, true).should.eventually.deep.equal({
+				version,
+				'People & Body': {
+					'hand-fingers-open': [
+						{
+							codepoints: '1F44B',
+							name: 'waving hand'
+						}
+					],
+					'hand-fingers-partial': [
+						{
+							codepoints: '1F44C',
+							name: 'hand'
+						}
+					]
+				}
+			});
+		});
 	});
 });
