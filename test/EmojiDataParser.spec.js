@@ -251,7 +251,7 @@ describe('EmojiDataParser', () => {
 					'hand-fingers-partial': [
 						{
 							codepoints: '1F44C',
-							name: 'hand'
+							name: 'OK hand'
 						}
 					]
 				}
@@ -310,6 +310,35 @@ describe('EmojiDataParser', () => {
 				Component: {
 					'hair-style': [],
 					'skin-tone': []
+				}
+			});
+		});
+
+		it('does not ignore emoji names with beginning capital letters', () => {
+			const data =
+			`
+			# group: People & Body
+
+			# subgroup: hand-fingers-partial
+			1F44C                                      ; fully-qualified     # 👌 E0.6 OK hand
+			1F44C                                      ; fully-qualified     # 👌 OK hand
+			`;
+
+			sinon.stub(EmojiDataRetriever.prototype, 'getData').resolves(data);
+
+			return parser.getFilteredData(version, false).should.eventually.deep.equal({
+				version,
+				'People & Body': {
+					'hand-fingers-partial': [
+						{
+							codepoints: '1F44C',
+							name: 'OK hand'
+						},
+						{
+							codepoints: '1F44C',
+							name: 'OK hand'
+						}
+					]
 				}
 			});
 		});

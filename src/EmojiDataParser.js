@@ -60,11 +60,19 @@ export default class EmojiDataParser {
 	}
 
 	_getEmojiName(line) {
-		const startNameSectionIndex = line.lastIndexOf('#');
+		const startNameSectionIndex = line.indexOf('#');
 		const nameSection = line.substring(startNameSectionIndex);
 
-		// Assumes that the name starts with a lowercase letter
-		const startOfEmojiName = nameSection.search(/[a-z]/);
+		const startOfEmojiUnicodeVersion = nameSection.search(/E\d+\.\d+/);
+		
+		let startOfEmojiName;
+		if (startOfEmojiUnicodeVersion === -1) {
+			startOfEmojiName = nameSection.search(/[A-Za-z]/);
+		}
+		else {
+			const spaceBetweenUnicodeVersionAndNameIndex = nameSection.indexOf(' ', startOfEmojiUnicodeVersion);
+			startOfEmojiName = spaceBetweenUnicodeVersionAndNameIndex + 1;
+		}
 		
 		return nameSection.substring(startOfEmojiName);
 	}
